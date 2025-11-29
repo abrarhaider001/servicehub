@@ -1,0 +1,37 @@
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:servicehub/core/utils/constants/colors.dart';
+import 'package:servicehub/core/utils/theme/widget_themes/text_theme.dart';
+
+class AuthHeader extends StatelessWidget {
+  final String title;
+  final String subtitle;
+  const AuthHeader({super.key, required this.title, required this.subtitle});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const SizedBox(height: 16),
+        Text(
+          title,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontFamily: GoogleFonts.poppins().fontFamily,
+            fontSize: 30.0,
+            color: MyColors.textPrimary,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          subtitle,
+          textAlign: TextAlign.center,
+          style: MyTextTheme.lightTextTheme.bodyMedium,
+        ),
+      ],
+    );
+  }
+}
+
