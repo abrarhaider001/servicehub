@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:servicehub/core/routes/app_routes.dart';
+import 'package:servicehub/core/services/auth_service.dart';
 import 'package:servicehub/core/utils/constants/colors.dart';
 import 'package:servicehub/core/utils/theme/widget_themes/button_theme.dart';
 import 'package:servicehub/core/utils/theme/widget_themes/text_field_theme.dart';
@@ -40,6 +42,29 @@ class RegisterForm extends StatelessWidget {
               prefixIcon: const Icon(Icons.location_on_outlined, color: MyColors.primary),
             ),
             validator: (v) => (v == null || v.isEmpty) ? 'Required' : null,
+          ),
+          const SizedBox(height: 20),
+          Text('Role', style: Theme.of(context).textTheme.titleLarge),
+          const SizedBox(height: 8),
+          Obx(
+            () => DropdownButtonFormField<String>(
+              value: controller.role.value,
+              isDense: true,
+              style: const TextStyle(fontSize: 14, color: MyColors.primary),
+              decoration: MyTextFormFieldTheme.lightInputDecoration(
+                hintText: 'Choose role',
+                prefixIcon: const Icon(Icons.supervisor_account_outlined, color: MyColors.primary, size: 24,),
+              ).copyWith(
+                isDense: true,
+                contentPadding: const EdgeInsets.symmetric(vertical: 2, horizontal: 12),
+              ),
+              items: const [
+                DropdownMenuItem(value: 'user', child: Text('User')),
+                DropdownMenuItem(value: 'service_provider', child: Text('Service Provider')),
+              ],
+              onChanged: (v) => controller.setRole(v ?? 'user'),
+              validator: (v) => (v == null || v.isEmpty) ? 'Required' : null,
+            ),
           ),
           const SizedBox(height: 20),
           Text('Email address', style: Theme.of(context).textTheme.titleLarge),
@@ -104,7 +129,27 @@ class RegisterForm extends StatelessWidget {
           const SizedBox(height: 16),
           Obx(
             () => GradientElevatedButton(
-              onPressed: controller.isLoading.value ? null : controller.register,
+              onPressed: controller.isLoading.value
+                  ? null
+                  : () async {
+                      if (!(controller.formKey.currentState?.validate() ?? false)) {
+                        return;
+                      }
+                      controller.isLoading.value = true;
+                      try {
+                        await AuthService.instance.signupWithEmailPassword(
+                          email: controller.emailController.text.trim(),
+                          password: controller.passwordController.text,
+                          fullName: controller.nameController.text.trim(),
+                          role: controller.role.value,
+                        );
+                        Get.toNamed(AppRoutes.subscription);
+                      } catch (e) {
+                        Get.snackbar('Signup failed', e.toString());
+                      } finally {
+                        controller.isLoading.value = false;
+                      }
+                    },
               child: controller.isLoading.value
                   ? const SizedBox(
                       height: 20,
