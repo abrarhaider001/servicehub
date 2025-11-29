@@ -11,6 +11,7 @@ import 'package:servicehub/core/utils/local_storage/storage_utility.dart';
 import 'package:servicehub/firebase_options.dart';
 
 Future<void> main() async {
+  //firebase connection
   WidgetsFlutterBinding.ensureInitialized();
   if (kIsWeb) {
     await Firebase.initializeApp(
@@ -19,9 +20,10 @@ Future<void> main() async {
   } else {
     await Firebase.initializeApp();
     if (kDebugMode) {
-      print("Firebase initialized!!!");
+      print('[INFO] Firebase initialized!!!');
     }
   }
+
   // .env Loading
   try {
     await dotenv.load(fileName: '.env');
