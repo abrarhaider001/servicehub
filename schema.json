@@ -1,0 +1,229 @@
+{
+  "users": {
+    "{userId}": {
+      "fullName": "string",
+      "email": "string",
+      "role": "user | provider | admin",
+      "profileImageUrl": "string",
+      "createdAt": "timestamp",
+      "favorites": ["providerId"],
+      "city": "string",
+      "address": [
+        {
+          "addressId": "string",
+          "label": "Home | Office | Other",
+          "address": "string",
+          "lat": "float",
+          "lng": "float"
+        }
+      ],
+      "metadata": {
+        "deviceTokens": ["fcmToken"]
+      },
+      "walletId": "wallet_{userId}"
+    }
+  },
+
+  "providers": {
+    "{providerId}": {
+      "userRef": "/users/{providerId}",
+      "displayName": "string",
+      "hourlyRate": "number",
+      "experienceYears": "number",
+      "ratingAvg": "number",
+      "ratingCount": "number",
+      "serviceLocation": {
+        "lat": "float",
+        "lng": "float",
+        "radiusKm": "number"
+      },
+      "availability": {
+        "mon": [{"from": "HH:MM", "to": "HH:MM"}],
+        "tue": [],
+        "wed": [],
+        "thu": [],
+        "fri": [],
+        "sat": [],
+        "sun": []
+      },
+      "skills": ["string"],
+      "verified": "boolean",
+      "status": "approved | pending | rejected | banned",
+      "profileSummary": "string",
+      "serviceArea": ["string"],
+      "documents": {
+        "nidUrl": "string",
+        "taxCertificate": "string or null"
+      },
+      "isOnline": "boolean",
+      "createdAt": "timestamp"
+    },
+
+    "{providerId}/certificates": {
+      "{certificateId}": {
+        "title": "string",
+        "fileUrl": "string",
+        "issuedBy": "string",
+        "issueDate": "date",
+        "addedAt": "timestamp",
+        "verified": "boolean",
+        "notes": "string"
+      }
+    }
+  },
+
+  "categories": {
+    "{categoryId}": {
+      "name": "string",
+      "parentId": "string or null",
+      "iconUrl": "string",
+      "description": "string",
+      "isActive": "boolean",
+      "priority": "number",
+      "createdAt": "timestamp"
+    }
+  },
+
+  "services": {
+    "{serviceId}": {
+      "providerId": "string",
+      "categoryId": "string",
+      "title": "string",
+      "description": "string",
+      "images": ["string"],
+      "priceType": "fixed | hourly",
+      "basePrice": "number",
+      "minDurationMins": "number",
+      "isActive": "boolean",
+      "createdAt": "timestamp",
+      "ratingsAvg": "number",
+      "ratingsCount": "number",
+      "tags": ["string"]
+    }
+  },
+
+  "orders": {
+    "{orderId}": {
+      "userId": "string",
+      "providerId": "string",
+      "serviceId": "string",
+      "finalPrice": "number",
+      "currency": "string",
+      "paymentMethod": "wallet | card | cash",
+      "paymentStatus": "unpaid | paid | refunded",
+      "orderStatus": "active | in_progress | completed | cancelled",
+      "startTime": "timestamp",
+      "endTime": "timestamp or null",
+      "createdAt": "timestamp",
+      "updatedAt": "timestamp",
+      "commission": "number",
+      "providerEarnings": "number",
+      "refundRequested": "boolean",
+      "cancellationReason": "string or null"
+    }
+  },
+
+  "wallets": {
+    "{userId}": {
+      "balance": "number",
+      "currency": "string",
+      "updatedAt": "timestamp",
+      "pendingWithdrawals": "number"
+    },
+
+    "{userId}/transactions": {
+      "{txId}": {
+        "type": "topup | orderPayment | refund | providerWithdraw | promo",
+        "amount": "number",
+        "currency": "string",
+        "referenceId": "orderId or promoId or null",
+        "status": "pending | success | failed",
+        "notes": "string",
+        "createdAt": "timestamp"
+      }
+    }
+  },
+
+  "subscriptions": {
+    "{subscriptionPlanId}": {
+      "name": "string",
+      "price": "number",
+      "durationDays": "number",
+      "benefits": ["string"],
+      "createdAt": "timestamp",
+      "isActive": "boolean"
+    }
+  },
+
+  "providerSubscriptions": {
+    "{providerSubscriptionId}": {
+      "providerId": "string",
+      "planId": "string",
+      "startDate": "timestamp",
+      "endDate": "timestamp",
+      "status": "active | expired | cancelled",
+      "approvedBy": "string",
+      "createdAt": "timestamp"
+    }
+  },
+
+  "chats": {
+    "{conversationId}": {
+      "participants": ["string"],
+      "orderId": "string",
+      "lastMessageAt": "timestamp",
+      "lastMessageText": "string",
+      "createdAt": "timestamp"
+    },
+
+    "{conversationId}/messages": {
+      "{messageId}": {
+        "senderId": "string",
+        "text": "string",
+        "attachments": ["string"],
+        "readBy": ["string"],
+        "createdAt": "timestamp",
+        "edited": "boolean",
+        "deleted": "boolean"
+      }
+    }
+  },
+
+  "reviews": {
+    "{reviewId}": {
+      "orderId": "string",
+      "userId": "string",
+      "providerId": "string",
+      "rating": "number",
+      "comment": "string",
+      "createdAt": "timestamp"
+    }
+  },
+
+  "adminLogs": {
+    "{logId}": {
+      "adminId": "string",
+      "action": "suspendUser | topup | withdrawApproval | blockProvider",
+      "targetUserId": "string or null",
+      "targetProviderId": "string or null",
+      "details": {
+        "reason": "string"
+      },
+      "createdAt": "timestamp"
+    }
+  },
+
+  "notifications": {
+    "{userId}": {
+      "inbox": {
+        "{notificationId}": {
+          "title": "string",
+          "body": "string",
+          "type": "order | chat | admin | system",
+          "read": "boolean",
+          "createdAt": "timestamp"
+        }
+      }
+    }
+  }
+}
