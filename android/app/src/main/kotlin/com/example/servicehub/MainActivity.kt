@@ -1,4 +1,4 @@
-package com.example.servicehub
+package com.servicehub.main
 
 import io.flutter.embedding.android.FlutterActivity
 
