@@ -12,9 +12,11 @@ class RegisterController extends GetxController {
   final obscure1 = true.obs;
   final obscure2 = true.obs;
   final isLoading = false.obs;
+  final role = 'user'.obs;
 
   void toggleObscure1() => obscure1.value = !obscure1.value;
   void toggleObscure2() => obscure2.value = !obscure2.value;
+  void setRole(String value) => role.value = value;
 
   void register() {
     if (!(formKey.currentState?.validate() ?? false)) return;
