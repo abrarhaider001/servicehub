@@ -42,6 +42,24 @@ class RegisterForm extends StatelessWidget {
             validator: (v) => (v == null || v.isEmpty) ? 'Required' : null,
           ),
           const SizedBox(height: 20),
+          Text('Role', style: Theme.of(context).textTheme.titleLarge),
+          const SizedBox(height: 8),
+          Obx(
+            () => DropdownButtonFormField<String>(
+              value: controller.role.value,
+              decoration: MyTextFormFieldTheme.lightInputDecoration(
+                hintText: 'Choose role',
+                prefixIcon: const Icon(Icons.supervisor_account_outlined, color: MyColors.primary),
+              ),
+              items: const [
+                DropdownMenuItem(value: 'user', child: Text('User')),
+                DropdownMenuItem(value: 'service_provider', child: Text('Service Provider')),
+              ],
+              onChanged: (v) => controller.setRole(v ?? 'user'),
+              validator: (v) => (v == null || v.isEmpty) ? 'Required' : null,
+            ),
+          ),
+          const SizedBox(height: 20),
           Text('Email address', style: Theme.of(context).textTheme.titleLarge),
           const SizedBox(height: 8),
           TextFormField(
