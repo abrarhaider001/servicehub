@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:servicehub/core/routes/app_routes.dart';
 import 'package:servicehub/core/widgets/custom_background.dart';
 import 'package:servicehub/core/widgets/onBoarding/onBoardCard.dart';
 import 'package:servicehub/view_model/onboarding_controller.dart';
@@ -35,6 +36,7 @@ class OnboardingPage extends StatelessWidget {
                               'isFirstTime',
                               false,
                             );
+                            Get.toNamed(AppRoutes.login);
                           } else {
                             c.next();
                           }
