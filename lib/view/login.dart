@@ -29,7 +29,7 @@ class LoginPage extends StatelessWidget {
                     title: 'Welcome',
                     subtitle: 'Hello there, sign in to continue!',
                   ),
-                  const SizedBox(height: 28),
+                  const SizedBox(height: 48),
                   LoginForm(controller: controller),
                   const SizedBox(height: 20),
                   AuthFooter(

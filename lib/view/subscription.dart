@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:servicehub/core/routes/app_routes.dart';
-import 'package:servicehub/core/utils/constants/colors.dart';
+import 'package:servicehub/core/widgets/auth/auth_header.dart';
 import 'package:servicehub/core/widgets/custom_background.dart';
 import 'package:servicehub/core/widgets/subscription/plans_grid.dart';
 
@@ -21,7 +21,10 @@ class SubscriptionPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const SizedBox(height: 24),
-                  const Text('Choose Your Plan', textAlign: TextAlign.center, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: MyColors.textPrimary)),
+                  const AuthHeader(
+                    title: 'Choose Your Plan',
+                    subtitle: 'Please select the plan that best fits your needs',
+                  ),
                   const SizedBox(height: 36),
                   PlansGrid(
                     onSelect: (planId, name, price, durationDays) {

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:servicehub/core/utils/constants/colors.dart';
 import 'package:servicehub/core/utils/theme/widget_themes/text_field_theme.dart';
 import 'package:servicehub/core/utils/theme/widget_themes/button_theme.dart';
+import 'package:servicehub/core/utils/theme/widget_themes/text_theme.dart';
 
 class CardForm extends StatefulWidget {
   final Future<void> Function(String number, String expiry, String cvv) onProceed;
@@ -61,7 +62,7 @@ class _CardFormState extends State<CardForm> {
               _CardNumberInputFormatter(),
             ],
             onChanged: (v) => widget.onChanged?.call(_number.text, _expiry.text, _cvv.text),
-            validator: (v) => (v == null || v.replaceAll(' ', '').length < 12) ? 'Invalid card number' : null,
+            validator: (v) => _validateCardNumber(v),
           ),
           const SizedBox(height: 16),
           Row(
@@ -79,7 +80,7 @@ class _CardFormState extends State<CardForm> {
                     _ExpiryDateInputFormatter(),
                   ],
                   onChanged: (v) => widget.onChanged?.call(_number.text, _expiry.text, _cvv.text),
-                  validator: (v) => (v == null || v.isEmpty) ? 'Required' : null,
+                  validator: (v) => _validateExpiry(v),
                 ),
               ),
               const SizedBox(width: 12),
@@ -96,7 +97,12 @@ class _CardFormState extends State<CardForm> {
                     LengthLimitingTextInputFormatter(4),
                   ],
                   onChanged: (v) => widget.onChanged?.call(_number.text, _expiry.text, _cvv.text),
-                  validator: (v) => (v == null || v.length < 3) ? 'Invalid CVV' : null,
+                  validator: (v) {
+                    final s = v ?? '';
+                    if (s.isEmpty) return 'Required';
+                    final ok = RegExp(r'^\d{3,4}$').hasMatch(s);
+                    return ok ? null : 'Invalid CVV';
+                  },
                 ),
               ),
             ],
@@ -138,11 +144,36 @@ class _CardFormState extends State<CardForm> {
                     width: 20,
                     child: CircularProgressIndicator(strokeWidth: 2, valueColor: AlwaysStoppedAnimation<Color>(Colors.white)),
                   )
-                : const Text('Proceed', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                : Text('Proceed', style: MyTextTheme.lightTextTheme.titleLarge?.copyWith(color: Colors.white)),
           ),
         ],
       ),
     );
+  }
+}
+
+extension on _CardFormState {
+  String? _validateCardNumber(String? v) {
+    final s = (v ?? '').replaceAll(' ', '');
+    if (s.isEmpty) return 'Required';
+    if (!RegExp(r'^\d+$').hasMatch(s)) return 'Invalid card number';
+    if (s.length < 12) return 'Must be at least 12 digits';
+    return null;
+  }
+
+  String? _validateExpiry(String? v) {
+    final s = (v ?? '').trim();
+    if (s.isEmpty) return 'Required';
+    if (!RegExp(r'^(0[1-9]|1[0-2])\/\d{2}$').hasMatch(s)) return 'Invalid format';
+    final parts = s.split('/');
+    final month = int.tryParse(parts[0]) ?? 0;
+    final year = 2000 + (int.tryParse(parts[1]) ?? 0);
+    if (month < 1 || month > 12) return 'Invalid month';
+    final now = DateTime.now();
+    final nowYm = now.year * 100 + now.month;
+    final expYm = year * 100 + month;
+    if (expYm < nowYm) return 'Expired card';
+    return null;
   }
 }
 

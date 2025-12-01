@@ -23,7 +23,7 @@ class LoginForm extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text('Email address', style: MyTextTheme.lightTextTheme.headlineMedium),
+          Text('Email address', style: MyTextTheme.lightTextTheme.titleLarge),
           const SizedBox(height: 8),
           TextFormField(
             controller: controller.emailController,
@@ -35,7 +35,7 @@ class LoginForm extends StatelessWidget {
             validator: (v) => (v == null || v.isEmpty) ? 'Required' : null,
           ),
           const SizedBox(height: 20),
-          Text('Password', style: MyTextTheme.lightTextTheme.headlineMedium),
+          Text('Password', style: MyTextTheme.lightTextTheme.titleLarge),
           const SizedBox(height: 8),
           Obx(
             () => TextFormField(
@@ -63,7 +63,7 @@ class LoginForm extends StatelessWidget {
               child: const Text('Forgot Password?', style: TextStyle(color: MyColors.primary)),
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 18),
           Obx(
             () => GradientElevatedButton(
               onPressed: controller.isLoading.value

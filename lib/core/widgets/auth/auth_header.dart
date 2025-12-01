@@ -16,10 +16,10 @@ class AuthHeader extends StatelessWidget {
         const SizedBox(height: 16),
         Text(
           title,
-          textAlign: TextAlign.center,
+          textAlign: TextAlign.left,
           style: TextStyle(
             fontFamily: GoogleFonts.poppins().fontFamily,
-            fontSize: 30.0,
+            fontSize: 24.0,
             color: MyColors.textPrimary,
             fontWeight: FontWeight.bold,
           ),
@@ -27,7 +27,7 @@ class AuthHeader extends StatelessWidget {
         const SizedBox(height: 8),
         Text(
           subtitle,
-          textAlign: TextAlign.center,
+          textAlign: TextAlign.left,
           style: MyTextTheme.lightTextTheme.bodyMedium,
         ),
       ],

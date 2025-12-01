@@ -63,7 +63,7 @@ class PlanCard extends StatelessWidget {
           color: highlight ? null : MyColors.white,
           gradient: highlight ? bgGradient : null,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: selected ? MyColors.black : Colors.black, width: 2),
+          border: Border.all(color: selected ? MyColors.primary : MyColors.primary, width: 2),
           boxShadow: const [
             BoxShadow(color: Color(0x11000000), blurRadius: 8, offset: Offset(0, 4)),
           ],
