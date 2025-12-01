@@ -19,7 +19,7 @@ class AuthHeader extends StatelessWidget {
           textAlign: TextAlign.left,
           style: TextStyle(
             fontFamily: GoogleFonts.poppins().fontFamily,
-            fontSize: 30.0,
+            fontSize: 24.0,
             color: MyColors.textPrimary,
             fontWeight: FontWeight.bold,
           ),
