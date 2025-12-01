@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:servicehub/core/utils/constants/colors.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class SearchPage extends StatelessWidget {
+  const SearchPage({super.key});
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Text(
-        'Welcome to ServiceHub',
+        'Search',
         style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: MyColors.textPrimary),
       ),
     );

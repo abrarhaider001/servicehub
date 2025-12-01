@@ -5,7 +5,7 @@ import 'package:servicehub/view/onboarding.dart';
 import 'package:servicehub/view/register.dart';
 import 'package:servicehub/view/splash.dart';
 import 'package:servicehub/view/subscription.dart';
-import 'package:servicehub/view/home.dart';
+import 'package:servicehub/core/widgets/navbar/navbar.dart';
 import 'package:servicehub/view/transaction_pending.dart';
 import 'package:servicehub/view/card_info.dart';
 
@@ -19,6 +19,6 @@ class AppPages {
     GetPage(name: AppRoutes.subscription, page: () => const SubscriptionPage()),
     GetPage(name: AppRoutes.cardInfo, page: () => const CardInfoPage()),
     GetPage(name: AppRoutes.pending, page: () => const TransactionPendingPage()),
-    GetPage(name: AppRoutes.home, page: () => const HomePage()),
+    GetPage(name: AppRoutes.home, page: () => const Navbar()),
   ];
 }
