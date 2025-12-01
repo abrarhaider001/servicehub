@@ -39,7 +39,7 @@ class OnBoardCard extends StatelessWidget {
                             width: 40,
                             height: 40,
                             decoration: const BoxDecoration(
-                              color: MyColors.buttonSecondary,
+                              color: MyColors.grey,
                               shape: BoxShape.circle,
                             ),
                             child: const Icon(
@@ -54,7 +54,7 @@ class OnBoardCard extends StatelessWidget {
             ),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.all(60.0),
+                padding: const EdgeInsets.all(100.0),
 
                 child: ClipRRect(
                   borderRadius: const BorderRadius.only(
@@ -94,13 +94,12 @@ class OnBoardCard extends StatelessWidget {
                     item.subtitle,
                     style: MyTextTheme.lightTextTheme.bodyMedium,
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 36),
                   SizedBox(
                     height: 50,
-                    width: 150,
+                    width: 120,
                     child: GradientElevatedButton(
                       onPressed: onNext,
-                      radius: 12,
                       child: Text(
                         'Next',
                         style: TextStyle(
