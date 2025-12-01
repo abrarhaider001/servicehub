@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class MyColors {
   //general colors
-  static const Color primary = Colors.black;
-  static const Color secondary = Color(0xFF1E293B);
+  static const Color primary = Color(0xFF313647);
+  static const Color secondary = Color(0xFF435663);
+  static const Color tertiary = Color(0xFFA3B087);
   static const Color secondaryLight = Color(0xFF334155);
   static const Color primaryBackground = Colors.white;
   static const Color secondaryBackground = Color(0xFFF1F5F9);
@@ -15,12 +16,12 @@ class MyColors {
   static const Color lightBackground = primaryBackground;
 
   //container colors
-  static const Color lightContainer = Color(0xFFF3F4F6);
+  static const Color lightContainer = tertiary;
   static const Color darkContainer = Colors.black;
 
   //button colors
   static const Color buttonPrimary = primary;
-  static const Color buttonSecondary = Color(0xFFE5E7EB);
+  static const Color buttonSecondary = tertiary;
 
   //icons colors
   static const Color iconPrimaryLight = textSecondary;
@@ -31,7 +32,7 @@ class MyColors {
   static const Color warning = Color(0xFFF57C00);
   static const Color info = Color(0xFF2563EB);
 
-  static const Color black = Color(0xFF232323);
+  static const Color black = Colors.black;
   static const Color dark = Color(0xff272727);
   static const Color darkerGrey = Color(0xFF4F4F4F);
   static const Color darkGrey = Color(0xFF939393);
