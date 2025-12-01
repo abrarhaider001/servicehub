@@ -8,7 +8,6 @@ class CustomBottomNavBar extends StatelessWidget {
   final Color? backgroundColor;
   final Color? selectedItemColor;
   final Color? unselectedItemColor;
-  final Gradient? gradient;
 
   const CustomBottomNavBar({
     super.key,
@@ -18,27 +17,21 @@ class CustomBottomNavBar extends StatelessWidget {
     this.backgroundColor,
     this.selectedItemColor,
     this.unselectedItemColor,
-    this.gradient,
   });
 
   @override
   Widget build(BuildContext context) {
-    final useGradient =
-        gradient ??
-        const LinearGradient(
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-          colors: [MyColors.primary, MyColors.secondary],
-        );
     return Container(
-      decoration: BoxDecoration(gradient: useGradient),
+      decoration: BoxDecoration(
+        color: MyColors.primaryBackground
+      ),
       child: BottomNavigationBar(
         currentIndex: currentIndex,
         onTap: onTap,
         items: items,
         backgroundColor: Colors.transparent,
-        selectedItemColor: selectedItemColor ?? Colors.white,
-        unselectedItemColor: unselectedItemColor ?? Colors.white70,
+        selectedItemColor: selectedItemColor ?? MyColors.primary,
+        unselectedItemColor: unselectedItemColor ?? MyColors.primary,
         elevation: 0,
       ),
     );
