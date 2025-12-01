@@ -43,6 +43,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const AuthTopBar(),
+                  const SizedBox(height: 10),
                   const AuthHeader(
                     title: 'Register',
                     subtitle: 'Please enter your credentials to proceed',

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:servicehub/core/utils/constants/colors.dart';
 
 class AuthTopBar extends StatelessWidget {
   final bool showBack;
@@ -11,12 +12,23 @@ class AuthTopBar extends StatelessWidget {
     return Row(
       children: [
         if (showBack)
-          IconButton(
-            onPressed: onBack ?? Get.back,
-            icon: const Icon(Icons.arrow_back),
+          Material(
+            color: Colors.transparent,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(20),
+              onTap: () => Get.back(),
+              child: Ink(
+                width: 40,
+                height: 40,
+                decoration: const BoxDecoration(
+                  color: MyColors.grey,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(Icons.arrow_back, color: Colors.black),
+              ),
+            ),
           ),
       ],
     );
   }
 }
-
