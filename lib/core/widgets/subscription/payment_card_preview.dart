@@ -22,7 +22,7 @@ class PaymentCardPreview extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: MyColors.black,
+        color: MyColors.primary,
         borderRadius: BorderRadius.circular(16),
         boxShadow: const [
           BoxShadow(color: Color(0x22000000), blurRadius: 12, offset: Offset(0, 6)),

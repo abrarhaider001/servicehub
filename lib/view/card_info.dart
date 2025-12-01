@@ -38,7 +38,7 @@ class _CardInfoPageState extends State<CardInfoPage> {
         await MyLocalStorage.instance().writeData('user', user.toJson());
       }
     } catch (_) {}
-    Get.offAllNamed(AppRoutes.home);
+    Get.toNamed(AppRoutes.pending);
   }
 
   @override
@@ -53,11 +53,11 @@ class _CardInfoPageState extends State<CardInfoPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // const SizedBox(height: 24),
                   const AuthTopBar(),
+                  const SizedBox(height: 10),
                   const AuthHeader(
                     title: 'Subscription',
-                    subtitle: 'Please enter your credentials to proceed',
+                    subtitle: 'Please enter your card information',
                   ),
                   const SizedBox(height: 36),
                   Builder(builder: (context) {
