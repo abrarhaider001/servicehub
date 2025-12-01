@@ -1,4 +1,3 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,22 +7,8 @@ import 'package:servicehub/core/utils/constants/colors.dart';
 import 'package:servicehub/core/utils/theme/theme.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:servicehub/core/utils/local_storage/storage_utility.dart';
-import 'package:servicehub/firebase_options.dart';
 
 Future<void> main() async {
-  //firebase connection
-  WidgetsFlutterBinding.ensureInitialized();
-  if (kIsWeb) {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-  } else {
-    await Firebase.initializeApp();
-    if (kDebugMode) {
-      print('[INFO] Firebase initialized!!!');
-    }
-  }
-
   // .env Loading
   try {
     await dotenv.load(fileName: '.env');
