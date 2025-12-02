@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:servicehub/core/utils/constants/colors.dart';
 import 'package:servicehub/core/utils/local_storage/storage_utility.dart';
-import 'package:servicehub/core/widgets/profile/profile_app_bar.dart';
+import 'package:servicehub/core/widgets/layout_app_bar.dart';
 import 'package:servicehub/core/widgets/profile/profile_header.dart';
 import 'package:servicehub/model/user_model.dart';
 import 'package:servicehub/core/widgets/profile/profile_tile.dart';
@@ -34,7 +34,7 @@ class _ProfilePageState extends State<ProfilePage> {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            ProfileAppBar(title: 'Profile', showBack: false),
+            LayoutPagesAppBar(title: 'Profile', showBack: false),
             const SizedBox(height: 16),
             ProfileHeader(name: name, email: email),
             const SizedBox(height: 16),

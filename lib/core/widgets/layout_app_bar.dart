@@ -4,12 +4,12 @@ import 'package:iconsax/iconsax.dart';
 import 'package:servicehub/core/utils/constants/colors.dart';
 import 'package:servicehub/core/utils/theme/widget_themes/text_theme.dart';
 
-class ProfileAppBar extends StatelessWidget {
+class LayoutPagesAppBar extends StatelessWidget {
   final String title;
   final bool showBack;
   final bool showTrailing;
 
-  const ProfileAppBar({
+  const LayoutPagesAppBar({
     required this.title,
     this.showBack = true,
     this.showTrailing = true,
