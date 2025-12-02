@@ -3,7 +3,6 @@ import 'package:servicehub/core/widgets/navbar/custom_bottom_nav_bar.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:servicehub/view/home.dart';
 import 'package:servicehub/view/orders.dart';
-import 'package:servicehub/view/search.dart';
 import 'package:servicehub/view/chats.dart';
 import 'package:servicehub/view/profile.dart';
 
@@ -20,7 +19,6 @@ class _NavbarState extends State<Navbar> {
   List<Widget> get _pages => const [
         HomePage(),
         OrdersPage(),
-        SearchPage(),
         ChatsPage(),
         ProfilePage(),
       ];
@@ -40,7 +38,6 @@ class _NavbarState extends State<Navbar> {
         items: const [
           BottomNavigationBarItem(icon: Icon(Iconsax.home_1), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Iconsax.task), label: 'Orders'),
-          BottomNavigationBarItem(icon: Icon(Iconsax.search_normal), label: 'Search'),
           BottomNavigationBarItem(icon: Icon(Iconsax.message), label: 'Chat'),
           BottomNavigationBarItem(icon: Icon(Iconsax.user), label: 'Profile'),
         ],
