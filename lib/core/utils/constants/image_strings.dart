@@ -10,6 +10,8 @@ class MyImages {
   static const String backgroundImage = "assets/images/background.png";
   static const String circleBackgroundImage =
       "assets/images/circleBackground.png";
+    static const String homeBannerBackgroundImage = "assets/images/home_banner_background.png";
+    static const String visaCardBackgroundImage = "assets/images/visa_card_background.png";
 
   // -- OnBoarding Screen Images
   static const String onBoardingImage1 = "assets/images/boarding1.png";
