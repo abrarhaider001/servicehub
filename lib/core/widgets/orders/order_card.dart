@@ -74,32 +74,10 @@ class OrderCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 8,
-                  ),
-                  decoration: BoxDecoration(
-                    color: MyColors.primary,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Text(
-                    'Check status',
-                    style: TextStyle(
-                      color: MyColors.white,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 12,
-                    ),
-                  ),
-                ),
+
               ],
             ),
-            const SizedBox(height: 12),
-            const Text(
-              'Service',
-              style: TextStyle(color: MyColors.textSecondary, fontSize: 12),
-            ),
-            const SizedBox(height: 6),
+            const SizedBox(height: 22),
             Row(
               children: [
                 Expanded(
@@ -124,26 +102,26 @@ class OrderCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      '\$ ${price.toStringAsFixed(0)}',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w700,
-                        color: MyColors.textPrimary,
-                      ),
+
+                 Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 8,
+                  ),
+                  decoration: BoxDecoration(
+                    color: MyColors.primary,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: const Text(
+                    'Check status',
+                    style: TextStyle(
+                      color: MyColors.white,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 12,
                     ),
-                    const SizedBox(height: 4),
-                    const Text(
-                      'Per hour',
-                      style: TextStyle(
-                        color: MyColors.textSecondary,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
+             
               ],
             ),
           ],
