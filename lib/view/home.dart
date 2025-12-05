@@ -9,6 +9,8 @@ import 'package:servicehub/core/widgets/home/home_app_bar.dart';
 import 'package:servicehub/core/widgets/home/home_banner.dart';
 import 'package:servicehub/core/widgets/home/popular_services.dart';
 import 'package:servicehub/model/user_model.dart';
+import 'package:get/get.dart';
+import 'package:servicehub/view_model/providers_controller.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -26,6 +28,7 @@ class _HomePageState extends State<HomePage> {
     if (data != null) {
       _user = UserModel.fromJson(data);
     }
+    Get.put(ProvidersController(), permanent: true);
   }
 
   @override
