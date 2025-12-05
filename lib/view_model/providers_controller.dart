@@ -28,7 +28,10 @@ class ProvidersController extends GetxController {
       q = q.where('skills', arrayContains: cat);
     }
     _sub = q.snapshots().listen((snap) {
-      final list = snap.docs.map((d) => d.data() as Map<String, dynamic>).toList();
+      final list = snap.docs.map((d) {
+        final data = d.data() as Map<String, dynamic>;
+        return {'id': d.id, ...data};
+      }).toList();
       providers.assignAll(list);
       loading.value = false;
     }, onError: (_) {

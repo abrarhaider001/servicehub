@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:servicehub/core/routes/app_routes.dart';
 import 'package:servicehub/view/login.dart';
 import 'package:servicehub/view/onboarding.dart';
+import 'package:servicehub/view/provider_info.dart';
 import 'package:servicehub/view/register.dart';
 import 'package:servicehub/view/splash.dart';
 import 'package:servicehub/view/subscription.dart';
@@ -20,5 +21,14 @@ class AppPages {
     GetPage(name: AppRoutes.cardInfo, page: () => const CardInfoPage()),
     GetPage(name: AppRoutes.pending, page: () => const TransactionPendingPage()),
     GetPage(name: AppRoutes.home, page: () => const Navbar()),
+    GetPage(
+      name: AppRoutes.providerInfo,
+      page: () {
+        final idParam = Get.parameters['id'];
+        final argId = Get.arguments is String ? Get.arguments as String : null;
+        final id = idParam ?? argId ?? '';
+        return ProviderInfoPage(providerId: id);
+      },
+    ),
   ];
 }
