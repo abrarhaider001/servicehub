@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 class ProviderInfoController extends GetxController {
@@ -24,14 +25,42 @@ class ProviderInfoController extends GetxController {
       final ref = pData['userRef'];
       String? userId;
       if (ref is String) {
-        final parts = ref.split('/');
-        userId = parts.isNotEmpty ? parts.last : null;
+        final m = RegExp(r"/users/([^/]+)").firstMatch(ref.trim());
+        userId = m?.group(1);
+        if (userId == null) {
+          final parts = ref.split('/').where((e) => e.isNotEmpty).toList();
+          final idx = parts.indexOf('users');
+          if (idx != -1 && idx + 1 < parts.length) {
+            userId = parts[idx + 1];
+          } else if (parts.isNotEmpty) {
+            userId = parts.last;
+          }
+        }
+        if (kDebugMode) {
+          print('[ProviderInfo] userRef string="$ref" parsedUserId=$userId');
+        }
       } else if (ref is DocumentReference) {
         userId = ref.id;
+        if (kDebugMode) {
+          print('[ProviderInfo] userRef DocumentReference id=$userId');
+        }
       }
       if (userId != null) {
-        final uSnap = await FirebaseFirestore.instance.collection('users').doc(userId).get();
-        user.value = uSnap.data();
+        try {
+          final uSnap = await FirebaseFirestore.instance.collection('users').doc(userId).get();
+          user.value = uSnap.data();
+
+        } catch (e) {
+          user.value = {};
+        }
+      } else {
+        if (kDebugMode) {
+          print('[ProviderInfo] userId not found from userRef=$ref');
+        }
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('[ProviderInfo] load error: $e');
       }
     } finally {
       loading.value = false;

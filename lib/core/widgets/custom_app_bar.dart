@@ -32,7 +32,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         const LinearGradient(
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
-          colors: [MyColors.primary, MyColors.secondary],
+          colors: [MyColors.primary, MyColors.primary],
         );
     return AppBar(
       title: Text(title, style: TextStyle(color: titleColor ?? Colors.white)),

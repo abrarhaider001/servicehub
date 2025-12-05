@@ -17,8 +17,8 @@ class PopularServices extends StatelessWidget {
         if (controller.loading.value) {
           return ListView.separated(
             itemCount: 6,
-            separatorBuilder: (_, __) => const SizedBox(height: 12),
-            itemBuilder: (_, __) => const _ProviderSkeleton(),
+            separatorBuilder: (_, _) => const SizedBox(height: 12),
+            itemBuilder: (_, _) => const _ProviderSkeleton(),
           );
         }
         final items = controller.providers;

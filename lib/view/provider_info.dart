@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:servicehub/core/utils/constants/colors.dart';
 import 'package:servicehub/core/widgets/custom_app_bar.dart';
@@ -30,6 +31,16 @@ class ProviderInfoPage extends StatelessWidget {
         final skills = (p['skills'] as List?)?.cast<String>() ?? const <String>[];
         final areas = (p['serviceArea'] as List?)?.cast<String>() ?? const <String>[];
         final city = (u['city'] as String?) ?? 'Unknown';
+        final email = (u['email'] as String?) ?? 'N/A';
+        final online = (p['isOnline'] as bool?) ?? false;
+        final createdAt = p['createdAt'] ?? u['createdAt'];
+        DateTime? joined;
+        if (createdAt is Timestamp) {
+          joined = createdAt.toDate();
+        } else if (createdAt is String) {
+          joined = DateTime.tryParse(createdAt);
+        }
+        final joinedText = joined != null ? _formatDate(joined) : 'N/A';
 
         return SingleChildScrollView(
           padding: const EdgeInsets.all(16),
@@ -38,7 +49,22 @@ class ProviderInfoPage extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  const CircleAvatar(radius: 28, backgroundColor: MyColors.grey, foregroundImage: AssetImage(MyImages.user)),
+                  Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      const CircleAvatar(radius: 28, backgroundColor: MyColors.grey, foregroundImage: AssetImage(MyImages.user)),
+                      if (online)
+                        Positioned(
+                          right: -2,
+                          top: -2,
+                          child: Container(
+                            width: 14,
+                            height: 14,
+                            decoration: BoxDecoration(color: MyColors.success, shape: BoxShape.circle, border: Border.all(color: MyColors.white, width: 2)),
+                          ),
+                        ),
+                    ],
+                  ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Column(
@@ -50,21 +76,39 @@ class ProviderInfoPage extends StatelessWidget {
                           children: [
                             const Icon(Iconsax.star1, color: MyColors.warning, size: 16),
                             const SizedBox(width: 4),
-                            Text('${rating.toStringAsFixed(1)} (${ratingCount})', style: const TextStyle(color: MyColors.textSecondary)),
+                            Text('${rating.toStringAsFixed(1)} ($ratingCount)', style: const TextStyle(color: MyColors.textSecondary)),
                           ],
                         ),
                       ],
                     ),
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text('\$${hourly.toStringAsFixed(0)} / hr', style: const TextStyle(fontWeight: FontWeight.w700, color: MyColors.textPrimary)),
-                      const SizedBox(height: 4),
-                      Text('$expYears yrs exp', style: const TextStyle(color: MyColors.textSecondary)),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text('\$${hourly.toStringAsFixed(0)} / hr', style: const TextStyle(fontWeight: FontWeight.w700, color: MyColors.textPrimary)),
+                        const SizedBox(height: 4),
+                        Text('$expYears yrs exp', style: const TextStyle(color: MyColors.textSecondary)),
+                      ],
+                    ),
                   ),
                 ],
+              ),
+              const SizedBox(height: 16),
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(color: MyColors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: MyColors.grey10)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('Contact', style: TextStyle(fontWeight: FontWeight.w700, color: MyColors.textPrimary)),
+                    const SizedBox(height: 8),
+                    Row(children: [const Icon(Icons.email_outlined, color: MyColors.primary), const SizedBox(width: 8), Expanded(child: Text(email, style: const TextStyle(color: MyColors.textPrimary)))]),
+                    const SizedBox(height: 8),
+                    Row(children: [const Icon(Icons.calendar_today_outlined, color: MyColors.primary, size: 18), const SizedBox(width: 8), Expanded(child: Text('Joined $joinedText', style: const TextStyle(color: MyColors.textPrimary)))]),
+                  ],
+                ),
               ),
               const SizedBox(height: 16),
               Container(
@@ -123,5 +167,11 @@ class ProviderInfoPage extends StatelessWidget {
       decoration: BoxDecoration(color: MyColors.white, borderRadius: BorderRadius.circular(20), border: Border.all(color: MyColors.grey10)),
       child: Text(text, style: const TextStyle(color: MyColors.textSecondary)),
     );
+  }
+
+  String _formatDate(DateTime d) {
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    final m = months[d.month - 1];
+    return '$m ${d.day}, ${d.year}';
   }
 }
