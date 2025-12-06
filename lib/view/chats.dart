@@ -31,7 +31,6 @@ class ChatsPage extends StatelessWidget {
             const SizedBox(height: 12),
             Obx(() {
               final meta = c.items;
-              // Empty chats
               if (meta.isEmpty) {
                 return const Expanded(child: Center(child: EmptyChats()));
               }
@@ -39,8 +38,8 @@ class ChatsPage extends StatelessWidget {
                   .map((m) => {
                         'name': c.names[m.otherUserID] ?? m.otherUserID,
                         'last': m.lastMessage,
-                        'time': (m.lastMessageTime ?? DateTime.now()).toLocal().toIso8601String(),
-                        'unread': !m.isLastMessageRead,
+                        'time': (m.lastMessageTime ?? DateTime.now()).toLocal(),
+                        'unread': (!m.isLastMessageRead) && (m.senderID != c.myId),
                         'chatID': m.chatID,
                         'otherUserID': m.otherUserID,
                       })
@@ -56,7 +55,8 @@ class ChatsPage extends StatelessWidget {
                     final item = items[i];
                     final name = item['name'] as String;
                     final last = item['last'] as String;
-                    final timeIso = item['time'] as String;
+                    final time = item['time'] as DateTime;
+                    final timeText = _formatListTime(time);
                     final unread = item['unread'] as bool;
                     final chatID = item['chatID'] as String;
                     final otherUserID = item['otherUserID'] as String;
@@ -96,7 +96,7 @@ class ChatsPage extends StatelessWidget {
                                         ),
                                       ),
                                       Text(
-                                        timeIso,
+                                        timeText,
                                         style: const TextStyle(
                                           color: MyColors.textSecondary,
                                           fontSize: 12,
@@ -142,6 +142,23 @@ class ChatsPage extends StatelessWidget {
       ),
     );
   }
+}
+
+String _formatListTime(DateTime t) {
+  final now = DateTime.now();
+  final isSameDay = t.year == now.year && t.month == now.month && t.day == now.day;
+  if (isSameDay) {
+    final h = t.hour % 12 == 0 ? 12 : t.hour % 12;
+    final m = t.minute.toString().padLeft(2, '0');
+    final ap = t.hour >= 12 ? 'PM' : 'AM';
+    return '$h:$m $ap';
+  }
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  final m = months[t.month - 1];
+  if (t.year == now.year) {
+    return '$m ${t.day}';
+  }
+  return '$m ${t.day}, ${t.year}';
 }
 
 
