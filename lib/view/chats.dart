@@ -6,6 +6,7 @@ import 'package:servicehub/core/utils/theme/widget_themes/text_field_theme.dart'
 import 'package:servicehub/view_model/chats_controller.dart';
 import 'package:servicehub/view/chat_page.dart';
 import 'package:servicehub/core/widgets/layout_app_bar.dart';
+import 'package:servicehub/core/widgets/chat/empty_chats.dart';
 
 class ChatsPage extends StatelessWidget {
   const ChatsPage({super.key});
@@ -30,6 +31,10 @@ class ChatsPage extends StatelessWidget {
             const SizedBox(height: 12),
             Obx(() {
               final meta = c.items;
+              // Empty chats
+              if (meta.isEmpty) {
+                return const Expanded(child: Center(child: EmptyChats()));
+              }
               final items = meta
                   .map((m) => {
                         'name': c.names[m.otherUserID] ?? m.otherUserID,
