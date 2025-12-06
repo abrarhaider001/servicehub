@@ -38,7 +38,7 @@
         "radiusKm": "number"
       },
       "availability": {
-        "mon": [{"from": "HH:MM", "to": "HH:MM"}],
+        "mon": [{ "from": "HH:MM", "to": "HH:MM" }],
         "tue": [],
         "wed": [],
         "thu": [],
@@ -168,23 +168,28 @@
   },
 
   "chats": {
-    "{conversationId}": {
-      "participants": ["string"],
-      "orderId": "string",
-      "lastMessageAt": "timestamp",
-      "lastMessageText": "string",
-      "createdAt": "timestamp"
-    },
+    "{chatID}": {
+      "chatID": "string",
+      "senderID": "string",
+      "receiverID": "string",
+      "lastMessage": "string",
+      "lastMessageTime": "Timestamp",
+      "isLastMessageRead": "boolean"
+    }
+  },
 
-    "{conversationId}/messages": {
-      "{messageId}": {
-        "senderId": "string",
-        "text": "string",
-        "attachments": ["string"],
-        "readBy": ["string"],
-        "createdAt": "timestamp",
-        "edited": "boolean",
-        "deleted": "boolean"
+  "messages": {
+    "{chatID}": {
+      "chatMessages": {
+        "{messageID}": {
+          "messageID": "string",
+          "message": "string",
+          "messageType": "text",
+          "senderID": "string",
+          "receiverID": "string",
+          "seen": "boolean",
+          "createdAt": "Timestamp"
+        }
       }
     }
   },
