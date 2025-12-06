@@ -1,47 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:servicehub/core/utils/local_storage/storage_utility.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:servicehub/repository/chat_repository.dart';
 
 class ChatMessage {
   final String text;
   final DateTime time;
   final bool isMe;
   ChatMessage({required this.text, required this.time, required this.isMe});
-  Map<String, dynamic> toJson() => {
-        'text': text,
-        'time': time.toIso8601String(),
-        'isMe': isMe,
-      };
-  factory ChatMessage.fromJson(Map<String, dynamic> json) => ChatMessage(
-        text: json['text'] as String? ?? '',
-        time: DateTime.tryParse(json['time'] as String? ?? '') ?? DateTime.now(),
-        isMe: json['isMe'] as bool? ?? true,
-      );
 }
 
 class ChatController extends GetxController {
   final String conversationId;
   final String peerName;
-  ChatController({required this.conversationId, required this.peerName});
+  final String otherUserId;
+  ChatController({required this.conversationId, required this.peerName, required this.otherUserId});
 
-  final messages = <ChatMessage>[].obs;
+  final messages = <ChatMessage>[] .obs;
   final inputController = TextEditingController();
+  final _repo = ChatRepository();
+  final canSend = false.obs;
 
-  String get storageKey => 'chat_$conversationId';
+  String get myId => FirebaseAuth.instance.currentUser?.uid ?? '';
 
   @override
   void onInit() {
-    final data = MyLocalStorage.instance().readData<List<dynamic>>(storageKey) ?? [];
-    messages.assignAll(data.map((e) => ChatMessage.fromJson(Map<String, dynamic>.from(e as Map))).toList());
+    messages.clear();
+    _repo.streamMessages(conversationId).listen((ms) {
+      final mapped = ms
+          .map((m) => ChatMessage(text: m.message, time: m.createdAt, isMe: m.senderID == myId))
+          .toList();
+      messages.assignAll(mapped);
+    });
+    _repo.markChatOpen(chatID: conversationId, userID: myId);
+    inputController.addListener(() {
+      canSend.value = inputController.text.trim().isNotEmpty;
+    });
     super.onInit();
   }
 
-  Future<void> sendMessage(String text, {bool isMe = true}) async {
-    if (text.trim().isEmpty) return;
-    final msg = ChatMessage(text: text.trim(), time: DateTime.now(), isMe: isMe);
-    messages.add(msg);
+  Future<void> sendMessage(String text) async {
+    final t = text.trim();
+    if (t.isEmpty) return;
     inputController.clear();
-    await MyLocalStorage.instance().writeData(storageKey, messages.map((m) => m.toJson()).toList());
+    await _repo.sendMessage(chatID: conversationId, senderID: myId, receiverID: otherUserId, text: t);
+    inputController.clear();
+    canSend.value = false;
   }
 
   @override

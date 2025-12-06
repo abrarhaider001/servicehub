@@ -1,72 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:servicehub/core/utils/constants/colors.dart';
 import 'package:servicehub/core/utils/theme/widget_themes/text_field_theme.dart';
-import 'package:servicehub/core/widgets/chat/chats_list_view.dart';
+import 'package:servicehub/view_model/chats_controller.dart';
+import 'package:servicehub/view/chat_page.dart';
 import 'package:servicehub/core/widgets/layout_app_bar.dart';
 
 class ChatsPage extends StatelessWidget {
   const ChatsPage({super.key});
 
-  List<Map<String, dynamic>> get _items => const [
-        {
-          'name': 'My Honey',
-          'last': 'Beso beli es coklat yuu',
-          'time': '15:23',
-          'unread': true,
-        },
-        {
-          'name': 'Si Botak',
-          'last': 'San, aku udah di lokasi nih',
-          'time': '17:12',
-          'unread': false,
-        },
-        {
-          'name': 'James Kribo',
-          'last': 'Halo broo, weekend maen',
-          'time': '17:00',
-          'unread': true,
-        },
-        {
-          'name': 'Dribbble & Behance',
-          'last': 'Pagi guys, izin share shot terbaru',
-          'time': '13:05',
-          'unread': false,
-        },
-        {
-          'name': 'Mike Michiel',
-          'last': 'Hi, can you give me extra...',
-          'time': '12:33',
-          'unread': true,
-        },
-        {
-          'name': 'Microstock Contributor',
-          'last': "I've upload my new design on...",
-          'time': '12:23',
-          'unread': false,
-        },
-        {
-          'name': 'Upwork Freelance',
-          'last': 'No, i think machine learning...',
-          'time': '10:32',
-          'unread': false,
-        },
-        {
-          'name': 'Rafiee Rohmat',
-          'last': 'San, titip ayam geprek dong',
-          'time': '08:23',
-          'unread': false,
-        },
-        {
-          'name': 'Ahmad Arianto',
-          'last': 'Hahaha, kaya nya oke sih',
-          'time': '08:00',
-          'unread': false,
-        },
-      ];
 
   @override
   Widget build(BuildContext context) {
+    final c = Get.put(ChatsController());
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -81,7 +28,110 @@ class ChatsPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
-            ChatsListView(items: _items),
+            Obx(() {
+              final meta = c.items;
+              final items = meta
+                  .map((m) => {
+                        'name': c.names[m.otherUserID] ?? m.otherUserID,
+                        'last': m.lastMessage,
+                        'time': (m.lastMessageTime ?? DateTime.now()).toLocal().toIso8601String(),
+                        'unread': !m.isLastMessageRead,
+                        'chatID': m.chatID,
+                        'otherUserID': m.otherUserID,
+                      })
+                  .toList();
+              return Expanded(
+                child: ListView.separated(
+                  itemCount: items.length,
+                  separatorBuilder: (_, __) => const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                    child: Divider(color: MyColors.grey, height: 1, thickness: 1),
+                  ),
+                  itemBuilder: (context, i) {
+                    final item = items[i];
+                    final name = item['name'] as String;
+                    final last = item['last'] as String;
+                    final timeIso = item['time'] as String;
+                    final unread = item['unread'] as bool;
+                    final chatID = item['chatID'] as String;
+                    final otherUserID = item['otherUserID'] as String;
+                    return InkWell(
+                      onTap: () => Get.to(() => ChatPage(conversationId: chatID, peerName: name, otherUserId: otherUserID)),
+                      borderRadius: BorderRadius.circular(12),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                        decoration: BoxDecoration(
+                          color: MyColors.white,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Row(
+                          children: [
+                            CircleAvatar(
+                              radius: 20,
+                              backgroundColor: MyColors.grey,
+                              child: Text(
+                                name.isNotEmpty ? name[0] : '?',
+                                style: const TextStyle(color: MyColors.textPrimary),
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          name,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            color: MyColors.textPrimary,
+                                          ),
+                                        ),
+                                      ),
+                                      Text(
+                                        timeIso,
+                                        style: const TextStyle(
+                                          color: MyColors.textSecondary,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          last,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                            color: MyColors.textSecondary,
+                                            fontSize: 13,
+                                          ),
+                                        ),
+                                      ),
+                                      if (unread)
+                                        Container(
+                                          width: 8,
+                                          height: 8,
+                                          decoration: const BoxDecoration(color: MyColors.primary, shape: BoxShape.circle),
+                                        ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              );
+            }),
           ],
         ),
       ),

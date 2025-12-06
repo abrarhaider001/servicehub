@@ -9,6 +9,7 @@ class ProviderInfoController extends GetxController {
   final loading = true.obs;
   final provider = Rxn<Map<String, dynamic>>();
   final user = Rxn<Map<String, dynamic>>();
+  final userId = RxnString();
 
   @override
   void onInit() {
@@ -23,32 +24,33 @@ class ProviderInfoController extends GetxController {
       final pData = pSnap.data() ?? {};
       provider.value = pData;
       final ref = pData['userRef'];
-      String? userId;
+      String? uid;
       if (ref is String) {
         final m = RegExp(r"/users/([^/]+)").firstMatch(ref.trim());
-        userId = m?.group(1);
-        if (userId == null) {
+        uid = m?.group(1);
+        if (uid == null) {
           final parts = ref.split('/').where((e) => e.isNotEmpty).toList();
           final idx = parts.indexOf('users');
           if (idx != -1 && idx + 1 < parts.length) {
-            userId = parts[idx + 1];
+            uid = parts[idx + 1];
           } else if (parts.isNotEmpty) {
-            userId = parts.last;
+            uid = parts.last;
           }
         }
         if (kDebugMode) {
-          print('[ProviderInfo] userRef string="$ref" parsedUserId=$userId');
+          print('[ProviderInfo] userRef string="$ref" parsedUserId=$uid');
         }
       } else if (ref is DocumentReference) {
-        userId = ref.id;
+        uid = ref.id;
         if (kDebugMode) {
-          print('[ProviderInfo] userRef DocumentReference id=$userId');
+          print('[ProviderInfo] userRef DocumentReference id=$uid');
         }
       }
-      if (userId != null) {
+      if (uid != null) {
         try {
-          final uSnap = await FirebaseFirestore.instance.collection('users').doc(userId).get();
+          final uSnap = await FirebaseFirestore.instance.collection('users').doc(uid).get();
           user.value = uSnap.data();
+          userId.value = uid;
 
         } catch (e) {
           user.value = {};

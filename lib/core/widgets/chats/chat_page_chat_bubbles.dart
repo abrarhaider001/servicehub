@@ -19,7 +19,7 @@ class ChatPageChatBubbles extends StatelessWidget {
       itemCount: messages.length,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       itemBuilder: (context, index) {
-        final msg = messages[messages.length - 1 - index];
+        final msg = messages[index];
         final align = msg.isMe
             ? CrossAxisAlignment.end
             : CrossAxisAlignment.start;

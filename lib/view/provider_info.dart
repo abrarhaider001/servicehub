@@ -7,6 +7,8 @@ import 'package:servicehub/core/widgets/custom_app_bar.dart';
 import 'package:servicehub/core/utils/constants/image_strings.dart';
 import 'package:servicehub/core/widgets/provider-info/chips_style.dart';
 import 'package:servicehub/view_model/provider_info_controller.dart';
+import 'package:servicehub/view/chat_page.dart';
+import 'package:servicehub/repository/chat_repository.dart';
 import 'package:servicehub/core/routes/app_routes.dart';
 
 class ProviderInfoPage extends StatelessWidget {
@@ -174,7 +176,17 @@ class ChatNow extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 14),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               ),
-              onPressed: () => Get.toNamed(AppRoutes.home, parameters: {'tab': 'chat'}),
+              onPressed: () async {
+                final myId = ChatRepository().currentUserId();
+                final otherId = c.userId.value ?? '';
+                if (myId.isEmpty || otherId.isEmpty) {
+                  Get.toNamed(AppRoutes.home, parameters: {'tab': 'chat'});
+                  return;
+                }
+                final chatId = ChatRepository().buildChatId(myId, otherId);
+                final peerName = (c.user.value?['fullName'] as String?) ?? 'Chat';
+                Get.to(() => ChatPage(conversationId: chatId, peerName: peerName, otherUserId: otherId));
+              },
               child: const Text('Chat now', style: TextStyle(color: MyColors.white, fontWeight: FontWeight.w700)),
             ),
           ),

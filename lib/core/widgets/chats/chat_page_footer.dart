@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:servicehub/core/utils/constants/colors.dart';
 import 'package:servicehub/view_model/chat_controller.dart';
@@ -42,24 +43,27 @@ class ChatPageFooter extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 8),
-            SizedBox(
-              width: 44,
-              height: 44,
-              child: ElevatedButton(
-                onPressed: () => controller.sendMessage(
-                  controller.inputController.text,
-                  isMe: true,
-                ),
-                style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.zero,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(22),
+            Obx(() {
+              final enabled = controller.canSend.value;
+              return SizedBox(
+                width: 44,
+                height: 44,
+                child: ElevatedButton(
+                  onPressed: enabled ? () => controller.sendMessage(controller.inputController.text) : null,
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(22),
+                    ),
+                  ).copyWith(
+                    backgroundColor: MaterialStateProperty.resolveWith(
+                      (states) => states.contains(MaterialState.disabled) ? MyColors.grey10 : MyColors.primary,
+                    ),
                   ),
-                  backgroundColor: MyColors.primary,
+                  child: Icon(Iconsax.send_2, color: enabled ? MyColors.white : MyColors.textSecondary),
                 ),
-                child: const Icon(Iconsax.send_2, color: MyColors.white),
-              ),
-            ),
+              );
+            }),
           ],
         ),
       ),

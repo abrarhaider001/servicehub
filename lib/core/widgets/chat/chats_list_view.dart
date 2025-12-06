@@ -26,7 +26,7 @@ class ChatsListView extends StatelessWidget {
           final unread = item['unread'] as bool;
           return InkWell(
             onTap: () =>
-                Get.to(() => ChatPage(conversationId: name, peerName: name)),
+                Get.to(() => ChatPage(conversationId: name, peerName: name, otherUserId: '',)),
             borderRadius: BorderRadius.circular(12),
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
