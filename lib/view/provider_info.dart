@@ -5,7 +5,9 @@ import 'package:iconsax/iconsax.dart';
 import 'package:servicehub/core/utils/constants/colors.dart';
 import 'package:servicehub/core/widgets/custom_app_bar.dart';
 import 'package:servicehub/core/utils/constants/image_strings.dart';
+import 'package:servicehub/core/widgets/provider-info/chips_style.dart';
 import 'package:servicehub/view_model/provider_info_controller.dart';
+import 'package:servicehub/core/routes/app_routes.dart';
 
 class ProviderInfoPage extends StatelessWidget {
   final String providerId;
@@ -14,6 +16,20 @@ class ProviderInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = Get.put(ProviderInfoController(providerId: providerId));
+    return ChatNow(c: c);
+  }
+}
+
+class ChatNow extends StatelessWidget {
+  const ChatNow({
+    super.key,
+    required this.c,
+  });
+
+  final ProviderInfoController c;
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(title: 'Provider Info', showBack: true),
       body: Obx(() {
@@ -34,14 +50,10 @@ class ProviderInfoPage extends StatelessWidget {
         final email = (u['email'] as String?) ?? 'N/A';
         final online = (p['isOnline'] as bool?) ?? false;
         final createdAt = p['createdAt'] ?? u['createdAt'];
-        DateTime? joined;
         if (createdAt is Timestamp) {
-          joined = createdAt.toDate();
         } else if (createdAt is String) {
-          joined = DateTime.tryParse(createdAt);
         }
-        final joinedText = joined != null ? _formatDate(joined) : 'N/A';
-
+    
         return SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: Column(
@@ -55,7 +67,7 @@ class ProviderInfoPage extends StatelessWidget {
                       const CircleAvatar(radius: 28, backgroundColor: MyColors.grey, foregroundImage: AssetImage(MyImages.user)),
                       if (online)
                         Positioned(
-                          right: -2,
+                          right: 0,
                           top: -2,
                           child: Container(
                             width: 14,
@@ -74,6 +86,12 @@ class ProviderInfoPage extends StatelessWidget {
                         const SizedBox(height: 4),
                         Row(
                           children: [
+                            Expanded(child: Text(email, style: const TextStyle(color: MyColors.textPrimary))),
+                          ],
+                        ),
+                        const SizedBox(height: 4),
+                        Row(
+                          children: [
                             const Icon(Iconsax.star1, color: MyColors.warning, size: 16),
                             const SizedBox(width: 4),
                             Text('${rating.toStringAsFixed(1)} ($ratingCount)', style: const TextStyle(color: MyColors.textSecondary)),
@@ -82,46 +100,34 @@ class ProviderInfoPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text('\$${hourly.toStringAsFixed(0)} / hr', style: const TextStyle(fontWeight: FontWeight.w700, color: MyColors.textPrimary)),
-                        const SizedBox(height: 4),
-                        Text('$expYears yrs exp', style: const TextStyle(color: MyColors.textSecondary)),
-                      ],
-                    ),
-                  ),
+                  const SizedBox.shrink(),
                 ],
               ),
               const SizedBox(height: 16),
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(color: MyColors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: MyColors.grey10)),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text('Contact', style: TextStyle(fontWeight: FontWeight.w700, color: MyColors.textPrimary)),
-                    const SizedBox(height: 8),
-                    Row(children: [const Icon(Icons.email_outlined, color: MyColors.primary), const SizedBox(width: 8), Expanded(child: Text(email, style: const TextStyle(color: MyColors.textPrimary)))]),
-                    const SizedBox(height: 8),
-                    Row(children: [const Icon(Icons.calendar_today_outlined, color: MyColors.primary, size: 18), const SizedBox(width: 8), Expanded(child: Text('Joined $joinedText', style: const TextStyle(color: MyColors.textPrimary)))]),
-                  ],
-                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('Work Details', style: TextStyle(fontWeight: FontWeight.w700, color: MyColors.textPrimary)),
+                  const SizedBox(height: 8),
+                  Row(children: [const Icon(Icons.attach_money_rounded, color: MyColors.primary, size: 18), 
+                  const SizedBox(width: 8), Expanded(child: Text('${hourly.toStringAsFixed(0)} / hr', style: const TextStyle(color: MyColors.textPrimary)))]),
+                  const SizedBox(height: 8),
+                  Row(children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 2.0),
+                      child: const Icon(Icons.work_history_outlined, color: MyColors.primary, size: 14),
+                    ), 
+                  const SizedBox(width: 8), Expanded(child: Text('$expYears yrs experience', style: const TextStyle(color: MyColors.textPrimary)))]),
+                ],
               ),
               const SizedBox(height: 16),
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(color: MyColors.lightGrey, borderRadius: BorderRadius.circular(16)),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text('Summary', style: TextStyle(fontWeight: FontWeight.w700, color: MyColors.textPrimary)),
-                    const SizedBox(height: 8),
-                    Text(summary, style: const TextStyle(color: MyColors.textSecondary)),
-                  ],
-                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('Summary', style: TextStyle(fontWeight: FontWeight.w700, color: MyColors.textPrimary)),
+                  const SizedBox(height: 8),
+                  Text(summary, style: const TextStyle(color: MyColors.textSecondary)),
+                ],
               ),
               const SizedBox(height: 16),
               const Text('Skills', style: TextStyle(fontWeight: FontWeight.w700, color: MyColors.textPrimary)),
@@ -129,7 +135,7 @@ class ProviderInfoPage extends StatelessWidget {
               Wrap(
                 spacing: 8,
                 runSpacing: 8,
-                children: skills.map((s) => _chip(s)).toList(),
+                children: skills.map((s) => chip(s)).toList(),
               ),
               const SizedBox(height: 16),
               const Text('Service Area', style: TextStyle(fontWeight: FontWeight.w700, color: MyColors.textPrimary)),
@@ -137,7 +143,7 @@ class ProviderInfoPage extends StatelessWidget {
               Wrap(
                 spacing: 8,
                 runSpacing: 8,
-                children: areas.map((s) => _chip(s)).toList(),
+                children: areas.map((s) => chip(s)).toList(),
               ),
               const SizedBox(height: 16),
               const Text('Location', style: TextStyle(fontWeight: FontWeight.w700, color: MyColors.textPrimary)),
@@ -157,21 +163,23 @@ class ProviderInfoPage extends StatelessWidget {
           ),
         );
       }),
+      bottomNavigationBar: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+          child: SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: MyColors.primary,
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              ),
+              onPressed: () => Get.toNamed(AppRoutes.home, parameters: {'tab': 'chat'}),
+              child: const Text('Chat now', style: TextStyle(color: MyColors.white, fontWeight: FontWeight.w700)),
+            ),
+          ),
+        ),
+      ),
     );
-  }
-
-  Widget _chip(String label) {
-    final text = label[0].toUpperCase() + label.substring(1).toLowerCase();
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(color: MyColors.white, borderRadius: BorderRadius.circular(20), border: Border.all(color: MyColors.grey10)),
-      child: Text(text, style: const TextStyle(color: MyColors.textSecondary)),
-    );
-  }
-
-  String _formatDate(DateTime d) {
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    final m = months[d.month - 1];
-    return '$m ${d.day}, ${d.year}';
   }
 }

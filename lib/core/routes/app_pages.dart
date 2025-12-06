@@ -20,7 +20,15 @@ class AppPages {
     GetPage(name: AppRoutes.subscription, page: () => const SubscriptionPage()),
     GetPage(name: AppRoutes.cardInfo, page: () => const CardInfoPage()),
     GetPage(name: AppRoutes.pending, page: () => const TransactionPendingPage()),
-    GetPage(name: AppRoutes.home, page: () => const Navbar()),
+    GetPage(
+      name: AppRoutes.home,
+      page: () {
+        final idxParam = int.tryParse(Get.parameters['index'] ?? '');
+        final tabParam = Get.parameters['tab'];
+        final idx = idxParam ?? (tabParam == 'chat' ? 2 : 0);
+        return Navbar(initialIndex: idx);
+      },
+    ),
     GetPage(
       name: AppRoutes.providerInfo,
       page: () {

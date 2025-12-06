@@ -7,14 +7,22 @@ import 'package:servicehub/view/chats.dart';
 import 'package:servicehub/view/profile.dart';
 
 class Navbar extends StatefulWidget {
-  const Navbar({super.key});
+  const Navbar({super.key, this.initialIndex = 0});
+
+  final int initialIndex;
 
   @override
   State<Navbar> createState() => _NavbarState();
 }
 
 class _NavbarState extends State<Navbar> {
-  int _index = 0;
+  late int _index;
+
+  @override
+  void initState() {
+    super.initState();
+    _index = widget.initialIndex;
+  }
 
   List<Widget> get _pages => const [
         HomePage(),
