@@ -12,6 +12,7 @@ class HomeBanner extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
+        color: MyColors.primary,
         borderRadius: BorderRadius.circular(16),
         image: const DecorationImage(
           image: AssetImage(MyImages.homeBannerBackgroundImage),
@@ -21,9 +22,9 @@ class HomeBanner extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: const [
-          Text('One App. Every Service.', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: MyColors.textPrimary)),
+          Text('One App. Every Service.', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: MyColors.white)),
           SizedBox(height: 8),
-          Text('Body From cleaning to repairs — book trusted professionals in minutes.', style: TextStyle(color: MyColors.primary, fontWeight: FontWeight.w600)),
+          Text('Body From cleaning to repairs — book trusted professionals in minutes.', style: TextStyle(fontSize: 13, color: MyColors.lightGrey, fontWeight: FontWeight.w400)),
         ],
       ),
     );

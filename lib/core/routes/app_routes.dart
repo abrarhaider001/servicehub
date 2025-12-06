@@ -7,4 +7,5 @@ class AppRoutes {
   static const pending = '/pending';
   static const home = '/home';
   static const cardInfo = '/cardInfo';
+  static const providerInfo = '/provider-info';
 }
