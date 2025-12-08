@@ -49,6 +49,7 @@ class ChatNow extends StatelessWidget {
         final skills = (p['skills'] as List?)?.cast<String>() ?? const <String>[];
         final areas = (p['serviceArea'] as List?)?.cast<String>() ?? const <String>[];
         final city = (u['city'] as String?) ?? 'Unknown';
+        // ignore: unused_local_variable
         final email = (u['email'] as String?) ?? 'N/A';
         final online = (p['isOnline'] as bool?) ?? false;
         final createdAt = p['createdAt'] ?? u['createdAt'];
@@ -85,12 +86,12 @@ class ChatNow extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(name, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: MyColors.textPrimary)),
-                        const SizedBox(height: 4),
-                        Row(
-                          children: [
-                            Expanded(child: Text(email, style: const TextStyle(color: MyColors.textPrimary))),
-                          ],
-                        ),
+                        // const SizedBox(height: 4),
+                        // Row(
+                        //   children: [
+                        //     Expanded(child: Text(email, style: const TextStyle(color: MyColors.textPrimary))),
+                        //   ],
+                        // ),
                         const SizedBox(height: 4),
                         Row(
                           children: [
@@ -102,26 +103,20 @@ class ChatNow extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const SizedBox.shrink(),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text('\$${hourly.toStringAsFixed(0)}/hr', style: const TextStyle(fontWeight: FontWeight.w700, color: MyColors.textPrimary)),
+                        const SizedBox(height: 4),
+                        Text('$expYears yrs', style: const TextStyle(color: MyColors.textSecondary)),
+                      ],
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 16),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text('Work Details', style: TextStyle(fontWeight: FontWeight.w700, color: MyColors.textPrimary)),
-                  const SizedBox(height: 8),
-                  Row(children: [const Icon(Icons.attach_money_rounded, color: MyColors.primary, size: 18), 
-                  const SizedBox(width: 8), Expanded(child: Text('${hourly.toStringAsFixed(0)} / hr', style: const TextStyle(color: MyColors.textPrimary)))]),
-                  const SizedBox(height: 8),
-                  Row(children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 2.0),
-                      child: const Icon(Icons.work_history_outlined, color: MyColors.primary, size: 14),
-                    ), 
-                  const SizedBox(width: 8), Expanded(child: Text('$expYears yrs experience', style: const TextStyle(color: MyColors.textPrimary)))]),
-                ],
-              ),
               const SizedBox(height: 16),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
