@@ -96,7 +96,7 @@ class OnBoardCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 36),
                   SizedBox(
-                    height: 50,
+                    height: 44,
                     width: 120,
                     child: GradientElevatedButton(
                       onPressed: onNext,
@@ -106,7 +106,7 @@ class OnBoardCard extends StatelessWidget {
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                           fontFamily: GoogleFonts.poppins().fontFamily,
-                          fontSize: 20.0,
+                          fontSize: 16.0,
                         ),
                       ),
                     ),

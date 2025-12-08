@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:servicehub/core/routes/app_routes.dart';
+import 'package:servicehub/core/utils/local_storage/storage_utility.dart';
 import 'package:servicehub/core/services/auth_service.dart';
 import 'package:servicehub/core/utils/constants/colors.dart';
 import 'package:servicehub/core/utils/theme/widget_themes/button_theme.dart';
@@ -143,6 +144,7 @@ class RegisterForm extends StatelessWidget {
                           fullName: controller.nameController.text.trim(),
                           role: controller.role.value,
                         );
+                        await MyLocalStorage.instance().writeData('isUserLoggedIn', true);
                         Get.toNamed(AppRoutes.subscription);
                       } catch (e) {
                         Get.snackbar('Signup failed', e.toString());

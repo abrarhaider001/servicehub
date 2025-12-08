@@ -4,11 +4,7 @@ import '../../constants/colors.dart';
 class MyButtonTheme {
   static BoxDecoration primaryGradient({double radius = 24}) {
     return BoxDecoration(
-      gradient: const LinearGradient(
-        begin: Alignment.centerLeft,
-        end: Alignment.centerRight,
-        colors: [MyColors.primary, MyColors.primary],
-      ),
+      color: MyColors.primary,
       borderRadius: BorderRadius.circular(radius),
     );
   }
@@ -24,8 +20,8 @@ class GradientElevatedButton extends StatelessWidget {
     super.key,
     required this.onPressed,
     required this.child,
-    this.height = 48,
-    this.radius = 24,
+    this.height = 44,
+    this.radius = 12,
     this.gradient,
   });
 
@@ -33,25 +29,17 @@ class GradientElevatedButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: height,
-      child: DecoratedBox(
-        decoration: (gradient == null)
-            ? MyButtonTheme.primaryGradient(radius: radius)
-            : BoxDecoration(
-                gradient: gradient,
-                borderRadius: BorderRadius.circular(radius),
-              ),
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.transparent,
-            foregroundColor: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(radius),
-            ),
-            padding: EdgeInsets.zero,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: MyColors.primary,
+          foregroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(radius),
           ),
-          onPressed: onPressed,
-          child: child,
+          padding: const EdgeInsets.symmetric(vertical: 14),
         ),
+        onPressed: onPressed,
+        child: child,
       ),
     );
   }

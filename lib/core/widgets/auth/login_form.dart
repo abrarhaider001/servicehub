@@ -105,6 +105,7 @@ class LoginForm extends StatelessWidget {
                           isSubscriptionPaid: isPaid,
                         );
                         await MyLocalStorage.instance().writeData('user', userModel.toJson());
+                        await MyLocalStorage.instance().writeData('isUserLoggedIn', true);
                         Get.offAllNamed(isPaid ? AppRoutes.home : AppRoutes.subscription);
                       } catch (e) {
                         Get.snackbar('Login failed', e.toString());

@@ -4,6 +4,7 @@ import 'package:servicehub/core/routes/app_routes.dart';
 import 'package:servicehub/core/utils/constants/image_strings.dart';
 import 'package:servicehub/core/utils/device/device_utility.dart';
 import 'package:servicehub/core/widgets/custom_background.dart';
+import 'package:servicehub/core/utils/local_storage/storage_utility.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -20,10 +21,17 @@ class _SplashState extends State<Splash> {
   }
 
   Future<void> _initFlow() async {
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 2));
     if (!mounted) return;
-    Get.toNamed(AppRoutes.onBoarding);
-    
+    final flagFirst = MyLocalStorage.instance().readData<dynamic>('isFirstTime') as bool?;
+    final isFirstTime = flagFirst ?? true;
+    if (isFirstTime) {
+      Get.offAllNamed(AppRoutes.onBoarding);
+      return;
+    }
+    final loggedFlag = MyLocalStorage.instance().readData<dynamic>('isUserLoggedIn') as bool?;
+    final isUserLoggedIn = loggedFlag ?? false;
+    Get.offAllNamed(isUserLoggedIn ? AppRoutes.home : AppRoutes.login);
   }
   @override
   Widget build(BuildContext context) {
