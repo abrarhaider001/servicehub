@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:servicehub/core/widgets/child_profile_widgets/wallet/wallet_header.dart';
+import 'package:get/get.dart';
+import 'package:servicehub/core/routes/app_routes.dart';
 import 'package:servicehub/core/widgets/child_profile_widgets/wallet/transactions_list.dart';
 import 'package:servicehub/core/widgets/custom_app_bar.dart';
 
@@ -16,7 +18,7 @@ class WalletPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const WalletHeader(balance: '\$54,8673.94'),
+            WalletHeader(balance: '\$54,8673.94', onDeposit: () => Get.toNamed(AppRoutes.deposit)),
             const SizedBox(height: 26),
             WalletTransactions(
               items: const [
@@ -32,4 +34,3 @@ class WalletPage extends StatelessWidget {
     );
   }
 }
-
