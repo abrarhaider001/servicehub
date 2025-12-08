@@ -35,7 +35,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           colors: [MyColors.primary, MyColors.primary],
         );
     return AppBar(
-      title: Text(title, style: TextStyle(color: titleColor ?? Colors.white)),
+      title: Padding(
+        padding: const EdgeInsets.only(right:10.0),
+        child: Text(title, style: TextStyle(color: titleColor ?? Colors.white, fontSize: 16, fontFamily: 'Poppins')),
+      ),
       leading: showBack
           ? IconButton(
               onPressed: onBack ?? Get.back,
