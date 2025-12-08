@@ -23,8 +23,8 @@ class ChatPageChatBubbles extends StatelessWidget {
         final align = msg.isMe
             ? CrossAxisAlignment.end
             : CrossAxisAlignment.start;
-        final bubbleColor = msg.isMe ? MyColors.primary : MyColors.white;
-        final textColor = msg.isMe ? MyColors.white : MyColors.textPrimary;
+        final bubbleColor = msg.isMe ? MyColors.primary : MyColors.softGrey;
+        final textColor = msg.isMe ? MyColors.white : MyColors.black;
         return Column(
           crossAxisAlignment: align,
           children: [
