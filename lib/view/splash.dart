@@ -23,9 +23,15 @@ class _SplashState extends State<Splash> {
   Future<void> _initFlow() async {
     await Future.delayed(const Duration(seconds: 2));
     if (!mounted) return;
-    final flag = MyLocalStorage.instance().readData<dynamic>('isFirstTime') as bool?;
-    final isFirstTime = flag ?? true;
-    Get.offAllNamed(isFirstTime ? AppRoutes.onBoarding : AppRoutes.login);
+    final flagFirst = MyLocalStorage.instance().readData<dynamic>('isFirstTime') as bool?;
+    final isFirstTime = flagFirst ?? true;
+    if (isFirstTime) {
+      Get.offAllNamed(AppRoutes.onBoarding);
+      return;
+    }
+    final loggedFlag = MyLocalStorage.instance().readData<dynamic>('isUserLoggedIn') as bool?;
+    final isUserLoggedIn = loggedFlag ?? false;
+    Get.offAllNamed(isUserLoggedIn ? AppRoutes.home : AppRoutes.login);
   }
   @override
   Widget build(BuildContext context) {
