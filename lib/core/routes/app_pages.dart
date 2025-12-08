@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:servicehub/core/routes/app_routes.dart';
+import 'package:servicehub/view/child_profile_pages/wallet.dart';
 import 'package:servicehub/view/login.dart';
 import 'package:servicehub/view/onboarding.dart';
 import 'package:servicehub/view/provider_info.dart';
@@ -20,6 +21,7 @@ class AppPages {
     GetPage(name: AppRoutes.subscription, page: () => const SubscriptionPage()),
     GetPage(name: AppRoutes.cardInfo, page: () => const CardInfoPage()),
     GetPage(name: AppRoutes.pending, page: () => const TransactionPendingPage()),
+    GetPage(name: AppRoutes.wallet, page: () => const WalletPage()),
     GetPage(
       name: AppRoutes.home,
       page: () {

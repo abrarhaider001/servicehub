@@ -44,11 +44,11 @@ class _ProfilePageState extends State<ProfilePage> {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(color: MyColors.lightGrey, borderRadius: BorderRadius.circular(16)),
-              child: const Column(
+              child: Column(
                 children: [
-                  ProfileTile(icon: Iconsax.user, label: 'Account Settings'),
-                  SizedBox(height: 10),
-                  ProfileTile(icon: Iconsax.card, label: 'Payment Method'),
+                  const ProfileTile(icon: Iconsax.user, label: 'Account Settings'),
+                  const SizedBox(height: 10),
+                  ProfileTile(icon: Iconsax.card, label: 'Wallet', onTap: () => Get.toNamed(AppRoutes.wallet)),
                 ],
               ),
             ),
