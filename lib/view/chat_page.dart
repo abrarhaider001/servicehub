@@ -8,11 +8,12 @@ import 'package:servicehub/view_model/chat_controller.dart';
 class ChatPage extends StatelessWidget {
   final String conversationId;
   final String peerName;
-  const ChatPage({super.key, required this.conversationId, required this.peerName});
+  final String otherUserId;
+  const ChatPage({super.key, required this.conversationId, required this.peerName, required this.otherUserId});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(ChatController(conversationId: conversationId, peerName: peerName));
+    final controller = Get.put(ChatController(conversationId: conversationId, peerName: peerName, otherUserId: otherUserId));
     return Scaffold(
       appBar: ChatPageAppBar(title: peerName),
       body: Column(
