@@ -28,7 +28,11 @@ class RegisterForm extends StatelessWidget {
               hintText: 'John Doe',
               prefixIcon: const Icon(Icons.person_outline, color: MyColors.primary),
             ),
-            validator: (v) => (v == null || v.isEmpty) ? 'Required' : null,
+            validator: (v) {
+              if (v == null || v.isEmpty) return 'Required';
+              if (v.length > 15) return 'Maximum 15 characters';
+              return null;
+            },
           ),
           const SizedBox(height: 20),
           Text('Address', style: Theme.of(context).textTheme.titleLarge),
