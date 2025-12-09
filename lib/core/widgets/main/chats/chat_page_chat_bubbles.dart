@@ -2,22 +2,81 @@ import 'package:flutter/material.dart';
 import 'package:servicehub/core/utils/constants/colors.dart';
 import 'package:servicehub/view_model/chat_controller.dart';
 
-class ChatPageChatBubbles extends StatelessWidget {
+class ChatPageChatBubbles extends StatefulWidget {
   final List<ChatMessage> messages;
   const ChatPageChatBubbles({super.key, required this.messages});
 
+  @override
+  State<ChatPageChatBubbles> createState() => _ChatPageChatBubblesState();
+}
+
+class _ChatPageChatBubblesState extends State<ChatPageChatBubbles> {
+  final _scrollController = ScrollController();
+  bool _showDown = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  void _onScroll() {
+    final show = _scrollController.positions.isNotEmpty && _scrollController.offset > 64;
+    if (show != _showDown) {
+      setState(() => _showDown = show);
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollToBottom() {
+    if (!_scrollController.hasClients) return;
+    _scrollController.animateTo(
+      0.0,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      reverse: true,
-      itemCount: messages.length,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      itemBuilder: (context, index) {
-        final msg = messages[index];
-        final maxWidth = MediaQuery.of(context).size.width * 0.75;
-        return MessageBubble(msg: msg, maxWidth: maxWidth);
-      },
+    return Stack(
+      children: [
+        ListView.builder(
+          controller: _scrollController,
+          reverse: true,
+          itemCount: widget.messages.length,
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          itemBuilder: (context, index) {
+            final msg = widget.messages[index];
+            final maxWidth = MediaQuery.of(context).size.width * 0.75;
+            return MessageBubble(msg: msg, maxWidth: maxWidth);
+          },
+        ),
+        if (_showDown)
+          Positioned(
+            right: 12,
+            bottom: 12,
+            child: GestureDetector(
+              onTap: _scrollToBottom,
+              child: Container(
+                width: 40,
+                height: 40,
+                decoration: const BoxDecoration(
+                  color: MyColors.grey,
+                  shape: BoxShape.circle,
+                  boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 8, offset: Offset(0, 2))],
+                ),
+                child: const Icon(Icons.keyboard_double_arrow_down, color: MyColors.primary),
+              ),
+            ),
+          ),
+      ],
     );
   }
 }
