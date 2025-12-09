@@ -4,10 +4,12 @@ import 'package:servicehub/core/utils/constants/colors.dart';
 class PaymentOptions extends StatefulWidget {
   final String selected;
   final ValueChanged<String> onChanged;
+  final List<String>? enabledValues;
   const PaymentOptions({
     super.key,
     required this.selected,
     required this.onChanged,
+    this.enabledValues,
   });
 
   @override
@@ -21,8 +23,9 @@ class _PaymentOptionsState extends State<PaymentOptions> {
     required String value,
   }) {
     final selected = widget.selected == value;
+    final enabled = widget.enabledValues == null || widget.enabledValues!.contains(value);
     return GestureDetector(
-      onTap: () => widget.onChanged(value),
+      onTap: enabled ? () => widget.onChanged(value) : null,
       child: Container(
         margin: const EdgeInsets.only(bottom: 12),
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
@@ -30,25 +33,25 @@ class _PaymentOptionsState extends State<PaymentOptions> {
           color: selected ? MyColors.grey10 : MyColors.white,
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
-            color: selected ? MyColors.black : MyColors.grey10,
+            color: enabled ? (selected ? MyColors.black : MyColors.grey10) : MyColors.grey10,
             width: selected ? 1 : 1,
           ),
         ),
         child: Row(
           children: [
-            Icon(icon, color: MyColors.textPrimary),
+            Icon(icon, color: enabled ? MyColors.textPrimary : MyColors.grey),
             const SizedBox(width: 12),
             Expanded(
               child: Text(
                 label,
-                style: const TextStyle(color: MyColors.textPrimary),
+                style: TextStyle(color: enabled ? MyColors.textPrimary : MyColors.grey),
               ),
             ),
-            GestureDetector(
-              onTap: () => widget.onChanged(value),
+            IgnorePointer(
+              ignoring: !enabled,
               child: Icon(
                 selected ? Icons.radio_button_checked : Icons.radio_button_off,
-                color: MyColors.textPrimary,
+                color: enabled ? MyColors.textPrimary : MyColors.grey,
               ),
             ),
           ],

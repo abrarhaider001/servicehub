@@ -11,4 +11,5 @@ class AppRoutes {
   static const wallet = '/wallet';
   static const deposit = '/deposit';
   static const withdraw = '/withdraw';
+  static const depositCard = '/deposit-card';
 }

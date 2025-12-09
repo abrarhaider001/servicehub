@@ -11,6 +11,7 @@ import 'package:servicehub/core/widgets/navbar/navbar.dart';
 import 'package:servicehub/view/transaction_pending.dart';
 import 'package:servicehub/view/card_info.dart';
 import 'package:servicehub/view/wallet/deposit.dart';
+import 'package:servicehub/view/wallet/deposit_method.dart';
 import 'package:servicehub/view/wallet/withdraw.dart';
 
 
@@ -21,7 +22,8 @@ class AppPages {
     GetPage(name: AppRoutes.login, page: () => const LoginPage()),
     GetPage(name: AppRoutes.register, page: () => const RegisterPage()),
     GetPage(name: AppRoutes.subscription, page: () => const SubscriptionPage()),
-    GetPage(name: AppRoutes.deposit, page: () => const DepositPage()),
+    GetPage(name: AppRoutes.deposit, page: () => const DepositMethodPage()),
+    GetPage(name: AppRoutes.depositCard, page: () => const DepositPage()),
     GetPage(name: AppRoutes.withdraw, page: () => const WithdrawPage()),
     GetPage(name: AppRoutes.cardInfo, page: () => const CardInfoPage()),
     GetPage(name: AppRoutes.pending, page: () {

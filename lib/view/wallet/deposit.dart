@@ -6,7 +6,6 @@ import 'package:servicehub/core/widgets/custom_app_bar.dart';
 import 'package:servicehub/core/widgets/custom_background.dart';
 import 'package:servicehub/core/widgets/subscription/payment_card_preview.dart';
 import 'package:servicehub/core/widgets/subscription/card_form.dart';
-import 'package:servicehub/core/widgets/subscription/deposit_amount_field.dart';
 
 class DepositPage extends StatefulWidget {
   const DepositPage({super.key});
@@ -16,8 +15,6 @@ class DepositPage extends StatefulWidget {
 }
 
 class _DepositPageState extends State<DepositPage> {
-  final _amountController = TextEditingController();
-  final _depositFormKey = GlobalKey<FormState>();
   double _amount = 0.0;
   String _number = '';
   String _expiry = '';
@@ -25,15 +22,13 @@ class _DepositPageState extends State<DepositPage> {
   String _cvv = '';
 
   @override
-  void dispose() {
-    _amountController.dispose();
-    super.dispose();
+  void initState() {
+    super.initState();
+    final args = (Get.arguments as Map<String, dynamic>?) ?? const {};
+    _amount = (args['amount'] as num?)?.toDouble() ?? 0.0;
   }
 
   Future<void> _handleDeposit(String number, String expiry, String cvv) async {
-    if (!(_depositFormKey.currentState?.validate() ?? false)) {
-      return;
-    }
     await Future.delayed(const Duration(seconds: 2));
     Get.toNamed(AppRoutes.pending, arguments: {
       'title': 'Deposit is processing',
@@ -59,7 +54,7 @@ class _DepositPageState extends State<DepositPage> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    'Please enter card information and deposit amount.',
+                    'Please enter card information.',
                     textAlign: TextAlign.left,
                     style: MyTextTheme.lightTextTheme.bodyMedium,
                   ),
@@ -70,13 +65,6 @@ class _DepositPageState extends State<DepositPage> {
                     expiry: _expiry.isEmpty ? 'MM/YY' : _expiry,
                   ),
                   const SizedBox(height: 16),
-                  Form(
-                    key: _depositFormKey,
-                    child: DepositAmountField(
-                      controller: _amountController,
-                      onChanged: (amt) => setState(() => _amount = amt),
-                    ),
-                  ),
                   const SizedBox(height: 16),
                   CardForm(
                     onProceed: _handleDeposit,
