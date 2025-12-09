@@ -45,17 +45,23 @@ class _ChatPageChatBubblesState extends State<ChatPageChatBubbles> {
 
   @override
   Widget build(BuildContext context) {
+    final items = _buildItems(widget.messages);
     return Stack(
       children: [
         ListView.builder(
           controller: _scrollController,
           reverse: true,
-          itemCount: widget.messages.length,
+          itemCount: items.length,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           itemBuilder: (context, index) {
-            final msg = widget.messages[index];
-            final maxWidth = MediaQuery.of(context).size.width * 0.75;
-            return MessageBubble(msg: msg, maxWidth: maxWidth);
+            final item = items[index];
+            if (item.header != null) {
+              return _DateDivider(date: item.header!);
+            } else {
+              final msg = item.message!;
+              final maxWidth = MediaQuery.of(context).size.width * 0.75;
+              return MessageBubble(msg: msg, maxWidth: maxWidth);
+            }
           },
         ),
         if (_showDown)
@@ -79,6 +85,79 @@ class _ChatPageChatBubblesState extends State<ChatPageChatBubbles> {
       ],
     );
   }
+}
+
+class _DateDivider extends StatelessWidget {
+  final DateTime date;
+  const _DateDivider({required this.date});
+
+  String _format(DateTime t) {
+    final now = DateTime.now();
+    if (_isSameDay(t, now)) return 'Today';
+    final yesterday = now.subtract(const Duration(days: 1));
+    if (_isSameDay(t, yesterday)) return 'Yesterday';
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    final m = months[t.month - 1];
+    return '$m ${t.day}, ${t.year}';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        children: [
+          const Expanded(child: Divider(color: MyColors.grey10, thickness: 1)),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            decoration: BoxDecoration(
+              color: MyColors.grey10,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Text(
+              _format(date),
+              style: const TextStyle(color: MyColors.textSecondary, fontSize: 12, fontWeight: FontWeight.w600),
+            ),
+          ),
+          const Expanded(child: Divider(color: MyColors.grey10, thickness: 1)),
+        ],
+      ),
+    );
+  }
+}
+
+class _ChatItem {
+  final ChatMessage? message;
+  final DateTime? header;
+  const _ChatItem.message(this.message) : header = null;
+  const _ChatItem.header(this.header) : message = null;
+}
+
+bool _isSameDay(DateTime a, DateTime b) {
+  return a.year == b.year && a.month == b.month && a.day == b.day;
+}
+
+List<_ChatItem> _buildItems(List<ChatMessage> messages) {
+  final items = <_ChatItem>[];
+  if (messages.isEmpty) return items;
+  DateTime currentDay = DateTime(messages.first.time.year, messages.first.time.month, messages.first.time.day);
+  final dayBucket = <_ChatItem>[];
+  for (final m in messages) {
+    final d = DateTime(m.time.year, m.time.month, m.time.day);
+    if (_isSameDay(d, currentDay)) {
+      dayBucket.add(_ChatItem.message(m));
+    } else {
+      items.addAll(dayBucket);
+      items.add(_ChatItem.header(currentDay));
+      dayBucket.clear();
+      currentDay = d;
+      dayBucket.add(_ChatItem.message(m));
+    }
+  }
+  items.addAll(dayBucket);
+  items.add(_ChatItem.header(currentDay));
+  return items;
 }
 
 class MessageBubble extends StatefulWidget {
