@@ -154,10 +154,12 @@ class _CardFormState extends State<CardForm> {
 
 extension on _CardFormState {
   String? _validateCardNumber(String? v) {
-    final s = (v ?? '').replaceAll(' ', '');
-    if (s.isEmpty) return 'Required';
-    if (!RegExp(r'^\d+$').hasMatch(s)) return 'Invalid card number';
-    if (s.length < 12) return 'Must be at least 12 digits';
+    final raw = v ?? '';
+    final digits = raw.replaceAll(' ', '');
+    if (digits.isEmpty) return 'Required';
+    if (!RegExp(r'^\d+$').hasMatch(digits)) return 'Invalid card number';
+    if (digits.length != 16) return 'Must be 16 digits';
+    if (!RegExp(r'^\d{4} \d{4} \d{4} \d{4}$').hasMatch(raw)) return 'Invalid format';
     return null;
   }
 
@@ -180,7 +182,10 @@ extension on _CardFormState {
 class _CardNumberInputFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
-    final digits = newValue.text.replaceAll(RegExp(r'[^0-9]'), '');
+    var digits = newValue.text.replaceAll(RegExp(r'[^0-9]'), '');
+    if (digits.length > 16) {
+      digits = digits.substring(0, 16);
+    }
     final buffer = StringBuffer();
     for (int i = 0; i < digits.length; i++) {
       buffer.write(digits[i]);

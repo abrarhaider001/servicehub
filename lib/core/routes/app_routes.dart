@@ -8,4 +8,9 @@ class AppRoutes {
   static const home = '/home';
   static const cardInfo = '/cardInfo';
   static const providerInfo = '/provider-info';
+  static const wallet = '/wallet';
+  static const deposit = '/deposit';
+  static const withdraw = '/withdraw';
+  static const depositCard = '/deposit-card';
+  static const available = '/available';
 }

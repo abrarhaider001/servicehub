@@ -38,7 +38,10 @@ class _CardInfoPageState extends State<CardInfoPage> {
         await MyLocalStorage.instance().writeData('user', user.toJson());
       }
     } catch (_) {}
-    Get.toNamed(AppRoutes.pending);
+    Get.toNamed(AppRoutes.pending, arguments: {
+      'title': 'Subscription payment is processing',
+      'subtitle': 'Please wait while we confirm your subscription',
+    });
   }
 
   @override
