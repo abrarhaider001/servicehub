@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:servicehub/core/widgets/navbar/custom_bottom_nav_bar.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:servicehub/view/home.dart';
-import 'package:servicehub/view/orders.dart';
+import 'package:servicehub/view/main/user_home.dart';
+import 'package:servicehub/view/main/orders.dart';
 import 'package:servicehub/view/chats.dart';
-import 'package:servicehub/view/profile.dart';
+import 'package:servicehub/view/main/profile.dart';
 
 class Navbar extends StatefulWidget {
   const Navbar({super.key, this.initialIndex = 0});

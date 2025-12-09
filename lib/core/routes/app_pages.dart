@@ -1,17 +1,17 @@
 import 'package:get/get.dart';
 import 'package:servicehub/core/routes/app_routes.dart';
-import 'package:servicehub/view/child_profile_pages/wallet.dart';
-import 'package:servicehub/view/login.dart';
+import 'package:servicehub/view/wallet/wallet.dart';
+import 'package:servicehub/view/authentication/login.dart';
 import 'package:servicehub/view/onboarding.dart';
 import 'package:servicehub/view/provider_info.dart';
-import 'package:servicehub/view/register.dart';
+import 'package:servicehub/view/authentication/register.dart';
 import 'package:servicehub/view/splash.dart';
 import 'package:servicehub/view/subscription.dart';
 import 'package:servicehub/core/widgets/navbar/navbar.dart';
 import 'package:servicehub/view/transaction_pending.dart';
 import 'package:servicehub/view/card_info.dart';
-import 'package:servicehub/view/child_profile_pages/deposit.dart';
-import 'package:servicehub/view/child_profile_pages/withdraw.dart';
+import 'package:servicehub/view/wallet/deposit.dart';
+import 'package:servicehub/view/wallet/withdraw.dart';
 
 
 class AppPages {

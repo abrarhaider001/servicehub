@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:servicehub/core/utils/constants/colors.dart';
 import 'package:servicehub/core/utils/theme/widget_themes/text_theme.dart';
-import 'package:servicehub/core/widgets/child_profile_widgets/wallet/transaction_tile.dart';
+import 'package:servicehub/core/widgets/wallet/transaction_tile.dart';
 
 class WalletTransactions extends StatelessWidget {
   final List<Map<String, dynamic>> items;

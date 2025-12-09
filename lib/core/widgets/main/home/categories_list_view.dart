@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:servicehub/core/widgets/home/category_list.dart';
+import 'package:servicehub/core/widgets/main/home/category_list.dart';
 import 'package:get/get.dart';
 import 'package:servicehub/core/utils/constants/colors.dart';
 import 'package:servicehub/view_model/categories_controller.dart';

@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:servicehub/core/utils/constants/colors.dart';
 import 'package:servicehub/core/utils/constants/image_strings.dart';
 import 'package:servicehub/core/widgets/layout_app_bar.dart';
-import 'package:servicehub/core/widgets/orders/detail_tile.dart';
-import 'package:servicehub/core/widgets/orders/order_card.dart';
+import 'package:servicehub/core/widgets/main/orders/detail_tile.dart';
+import 'package:servicehub/core/widgets/main/orders/order_card.dart';
 import 'package:iconsax/iconsax.dart';
 
 class OrdersPage extends StatefulWidget {

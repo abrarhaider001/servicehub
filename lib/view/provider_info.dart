@@ -7,7 +7,7 @@ import 'package:servicehub/core/widgets/custom_app_bar.dart';
 import 'package:servicehub/core/utils/constants/image_strings.dart';
 import 'package:servicehub/core/widgets/provider-info/chips_style.dart';
 import 'package:servicehub/view_model/provider_info_controller.dart';
-import 'package:servicehub/view/chat_page.dart';
+import 'package:servicehub/view/main/chat_page.dart';
 import 'package:servicehub/repository/chat_repository.dart';
 import 'package:servicehub/core/routes/app_routes.dart';
 

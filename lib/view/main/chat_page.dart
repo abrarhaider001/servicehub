@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:servicehub/core/widgets/chats/chat_page_app_bar.dart';
-import 'package:servicehub/core/widgets/chats/chat_page_chat_bubbles.dart';
-import 'package:servicehub/core/widgets/chats/chat_page_footer.dart';
+import 'package:servicehub/core/widgets/main/chats/chat_page_app_bar.dart';
+import 'package:servicehub/core/widgets/main/chats/chat_page_chat_bubbles.dart';
+import 'package:servicehub/core/widgets/main/chats/chat_page_footer.dart';
 import 'package:servicehub/view_model/chat_controller.dart';
 
 class ChatPage extends StatelessWidget {

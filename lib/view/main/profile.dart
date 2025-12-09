@@ -6,9 +6,9 @@ import 'package:servicehub/core/widgets/layout_app_bar.dart';
 import 'package:get/get.dart';
 import 'package:servicehub/core/routes/app_routes.dart';
 import 'package:servicehub/core/widgets/custom_dialogs/logout_confirm_dialog.dart';
-import 'package:servicehub/core/widgets/profile/profile_header.dart';
+import 'package:servicehub/core/widgets/main/profile/profile_header.dart';
 import 'package:servicehub/model/user_model.dart';
-import 'package:servicehub/core/widgets/profile/profile_tile.dart';
+import 'package:servicehub/core/widgets/main/profile/profile_tile.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});

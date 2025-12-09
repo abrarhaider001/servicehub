@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:servicehub/core/utils/theme/widget_themes/text_theme.dart';
-import 'package:servicehub/core/widgets/child_profile_widgets/wallet/action_circle.dart';
+import 'package:servicehub/core/widgets/wallet/action_circle.dart';
 
 class WalletHeader extends StatelessWidget {
   final String balance;

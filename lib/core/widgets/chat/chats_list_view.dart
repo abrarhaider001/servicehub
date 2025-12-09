@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:servicehub/core/utils/constants/colors.dart';
-import 'package:servicehub/view/chat_page.dart';
+import 'package:servicehub/view/main/chat_page.dart';
 
 class ChatListView extends StatelessWidget {
   const ChatListView({
