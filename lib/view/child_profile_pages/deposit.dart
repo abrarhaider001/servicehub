@@ -35,7 +35,10 @@ class _DepositPageState extends State<DepositPage> {
       return;
     }
     await Future.delayed(const Duration(seconds: 2));
-    Get.toNamed(AppRoutes.pending);
+    Get.toNamed(AppRoutes.pending, arguments: {
+      'title': 'Deposit is processing',
+      'subtitle': 'Please wait while we confirm your deposit',
+    });
   }
 
   @override

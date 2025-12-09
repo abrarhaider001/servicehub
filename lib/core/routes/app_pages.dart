@@ -24,7 +24,12 @@ class AppPages {
     GetPage(name: AppRoutes.deposit, page: () => const DepositPage()),
     GetPage(name: AppRoutes.withdraw, page: () => const WithdrawPage()),
     GetPage(name: AppRoutes.cardInfo, page: () => const CardInfoPage()),
-    GetPage(name: AppRoutes.pending, page: () => const TransactionPendingPage()),
+    GetPage(name: AppRoutes.pending, page: () {
+      final args = (Get.arguments as Map<String, dynamic>?) ?? const {};
+      final t = (args['title'] as String?) ?? 'Your transaction is in progress';
+      final s = (args['subtitle'] as String?) ?? 'Wait for approval, then you can login freely';
+      return TransactionPendingPage(title: t, subtitle: s);
+    }),
     GetPage(name: AppRoutes.wallet, page: () => const WalletPage()),
     GetPage(
       name: AppRoutes.home,

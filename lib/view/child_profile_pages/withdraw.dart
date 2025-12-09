@@ -31,7 +31,10 @@ class _WithdrawPageState extends State<WithdrawPage> {
   void _confirmWithdraw() {
     if (!(_formKey.currentState?.validate() ?? false)) return;
     if (_amount <= 0) return;
-    Get.toNamed(AppRoutes.pending);
+    Get.toNamed(AppRoutes.pending, arguments: {
+      'title': 'Withdraw is processing',
+      'subtitle': 'Please wait while we process your withdrawal',
+    });
   }
 
   @override
