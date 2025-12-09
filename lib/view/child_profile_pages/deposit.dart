@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:servicehub/core/routes/app_routes.dart';
+import 'package:servicehub/core/utils/theme/widget_themes/text_theme.dart';
+import 'package:servicehub/core/widgets/custom_app_bar.dart';
 import 'package:servicehub/core/widgets/custom_background.dart';
-import 'package:servicehub/core/widgets/auth/auth_header.dart';
-import 'package:servicehub/core/widgets/auth/auth_top_bar.dart';
 import 'package:servicehub/core/widgets/subscription/payment_card_preview.dart';
 import 'package:servicehub/core/widgets/subscription/card_form.dart';
 import 'package:servicehub/core/widgets/subscription/deposit_amount_field.dart';
@@ -30,7 +30,6 @@ class _DepositPageState extends State<DepositPage> {
     super.dispose();
   }
 
-  
   Future<void> _handleDeposit(String number, String expiry, String cvv) async {
     if (!(_depositFormKey.currentState?.validate() ?? false)) {
       return;
@@ -42,8 +41,11 @@ class _DepositPageState extends State<DepositPage> {
   @override
   Widget build(BuildContext context) {
     final sanitized = _number.replaceAll(' ', '');
-    final last4 = sanitized.length >= 4 ? sanitized.substring(sanitized.length - 4) : '';
+    final last4 = sanitized.length >= 4
+        ? sanitized.substring(sanitized.length - 4)
+        : '';
     return Scaffold(
+      appBar: const CustomAppBar(title: 'Deposit', showBack: true),
       body: Stack(
         children: [
           const CustomBackground(),
@@ -53,11 +55,10 @@ class _DepositPageState extends State<DepositPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const AuthTopBar(),
-                  const SizedBox(height: 10),
-                  const AuthHeader(
-                    title: 'Deposit',
-                    subtitle: 'Please enter card information and deposit amount',
+                  Text(
+                    'Please enter card information and deposit amount.',
+                    textAlign: TextAlign.left,
+                    style: MyTextTheme.lightTextTheme.bodyMedium,
                   ),
                   const SizedBox(height: 24),
                   PaymentCardPreview(

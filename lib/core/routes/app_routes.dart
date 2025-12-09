@@ -10,4 +10,5 @@ class AppRoutes {
   static const providerInfo = '/provider-info';
   static const wallet = '/wallet';
   static const deposit = '/deposit';
+  static const withdraw = '/withdraw';
 }

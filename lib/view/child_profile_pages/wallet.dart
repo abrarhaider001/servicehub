@@ -18,7 +18,11 @@ class WalletPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            WalletHeader(balance: '\$54,8673.94', onDeposit: () => Get.toNamed(AppRoutes.deposit)),
+            WalletHeader(
+              balance: '\$54,8673.94',
+              onDeposit: () => Get.toNamed(AppRoutes.deposit),
+              onWithdraw: () => Get.toNamed(AppRoutes.withdraw),
+            ),
             const SizedBox(height: 26),
             WalletTransactions(
               items: const [
