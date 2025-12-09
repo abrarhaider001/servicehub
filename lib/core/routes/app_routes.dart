@@ -12,4 +12,5 @@ class AppRoutes {
   static const deposit = '/deposit';
   static const withdraw = '/withdraw';
   static const depositCard = '/deposit-card';
+  static const available = '/available';
 }

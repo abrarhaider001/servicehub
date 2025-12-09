@@ -13,6 +13,7 @@ import 'package:servicehub/view/card_info.dart';
 import 'package:servicehub/view/wallet/deposit.dart';
 import 'package:servicehub/view/wallet/deposit_method.dart';
 import 'package:servicehub/view/wallet/withdraw.dart';
+import 'package:servicehub/view/wallet/available_balance.dart';
 
 
 class AppPages {
@@ -25,6 +26,7 @@ class AppPages {
     GetPage(name: AppRoutes.deposit, page: () => const DepositMethodPage()),
     GetPage(name: AppRoutes.depositCard, page: () => const DepositPage()),
     GetPage(name: AppRoutes.withdraw, page: () => const WithdrawPage()),
+    GetPage(name: AppRoutes.available, page: () => const AvailableBalancePage()),
     GetPage(name: AppRoutes.cardInfo, page: () => const CardInfoPage()),
     GetPage(name: AppRoutes.pending, page: () {
       final args = (Get.arguments as Map<String, dynamic>?) ?? const {};

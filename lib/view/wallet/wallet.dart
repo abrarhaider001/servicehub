@@ -22,6 +22,7 @@ class WalletPage extends StatelessWidget {
               balance: '\$54,8673.94',
               onDeposit: () => Get.toNamed(AppRoutes.deposit),
               onWithdraw: () => Get.toNamed(AppRoutes.withdraw),
+              onAvailable: () => Get.toNamed(AppRoutes.available),
             ),
             const SizedBox(height: 26),
             WalletTransactions(
