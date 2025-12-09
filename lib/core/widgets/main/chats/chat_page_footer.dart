@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter/services.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:servicehub/core/utils/constants/colors.dart';
 import 'package:servicehub/view_model/chat_controller.dart';
@@ -40,6 +41,9 @@ class ChatPageFooter extends StatelessWidget {
                     borderSide: const BorderSide(width: 2, color: MyColors.black),
                   ),
                 ),
+                inputFormatters: [
+                  LengthLimitingTextInputFormatter(2000),
+                ],
               ),
             ),
             const SizedBox(width: 8),

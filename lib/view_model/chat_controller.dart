@@ -34,14 +34,15 @@ class ChatController extends GetxController {
     });
     _repo.markChatOpen(chatID: conversationId, userID: myId);
     inputController.addListener(() {
-      canSend.value = inputController.text.trim().isNotEmpty;
+      final t = inputController.text.trim();
+      canSend.value = t.isNotEmpty && t.length <= 2000;
     });
     super.onInit();
   }
 
   Future<void> sendMessage(String text) async {
     final t = text.trim();
-    if (t.isEmpty) return;
+    if (t.isEmpty || t.length > 2000) return;
     inputController.clear();
     await _repo.sendMessage(chatID: conversationId, senderID: myId, receiverID: otherUserId, text: t);
     inputController.clear();
