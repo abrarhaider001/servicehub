@@ -123,7 +123,7 @@ class LoginForm extends StatelessWidget {
                       ),
                     )
                   : const Text(
-                      'Login',
+                      'LogIn',
                       style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
                     ),
             ),
