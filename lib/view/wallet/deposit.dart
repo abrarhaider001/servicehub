@@ -6,9 +6,8 @@ import 'package:servicehub/core/widgets/custom_app_bar.dart';
 import 'package:servicehub/core/widgets/custom_background.dart';
 import 'package:servicehub/core/widgets/subscription/payment_card_preview.dart';
 import 'package:servicehub/core/widgets/subscription/card_form.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:servicehub/core/utils/constants/colors.dart';
+import 'package:servicehub/view_model/wallet_controller.dart';
 
 class DepositPage extends StatefulWidget {
   const DepositPage({super.key});
@@ -33,26 +32,10 @@ class _DepositPageState extends State<DepositPage> {
 
   Future<void> _handleDeposit(String number, String expiry, String cvv) async {
     try {
-      final uid = FirebaseAuth.instance.currentUser?.uid;
-      if (uid == null || _amount <= 0) {
-        Get.snackbar('Deposit failed', 'Invalid user or amount', backgroundColor: MyColors.error.withOpacity(0.1));
-        return;
-      }
-      final firestore = FirebaseFirestore.instance;
-      await firestore.collection('wallets').doc(uid).set({
-        'balance': FieldValue.increment(_amount),
-        'currency': 'USD',
-        'updatedAt': FieldValue.serverTimestamp(),
-      }, SetOptions(merge: true));
       final masked = number.replaceAll(' ', '');
       final last4 = masked.length >= 4 ? masked.substring(masked.length - 4) : '';
-      await firestore.collection('users').doc(uid).collection('transactionHistory').add({
-        'datetime': FieldValue.serverTimestamp(),
-        'amount': _amount,
-        'type': 'deposit',
-        'title': 'Wallet deposit',
-        'description': 'Deposited via card ****$last4',
-      });
+      final c = Get.put(WalletController());
+      await c.deposit(_amount, method: 'card', cardLast4: last4);
     } catch (e) {
       Get.snackbar('Deposit failed', e.toString(), backgroundColor: MyColors.error.withOpacity(0.1));
       return;
