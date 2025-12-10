@@ -26,7 +26,7 @@ class _WalletTransactionsState extends State<WalletTransactions> {
             Row(
               children: [
                 Expanded(
-                  child: Text('Recent transactions', style: MyTextTheme.lightTextTheme.headlineMedium!.copyWith(fontSize: 16)),
+                  child: Text('Transactions History', style: MyTextTheme.lightTextTheme.headlineMedium!.copyWith(fontSize: 16)),
                 ),
               ],
             ),
