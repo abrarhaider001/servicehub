@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:get/get.dart';
 
 class RegisterController extends GetxController {
@@ -13,6 +14,9 @@ class RegisterController extends GetxController {
   final obscure2 = true.obs;
   final isLoading = false.obs;
   final role = 'user'.obs;
+  final SingleValueDropDownController roleDropController = SingleValueDropDownController(
+    data: const DropDownValueModel(name: 'User', value: 'user'),
+  );
 
   void toggleObscure1() => obscure1.value = !obscure1.value;
   void toggleObscure2() => obscure2.value = !obscure2.value;
@@ -31,6 +35,7 @@ class RegisterController extends GetxController {
     addressController.dispose();
     passwordController.dispose();
     confirmController.dispose();
+    roleDropController.dispose();
     super.onClose();
   }
 }

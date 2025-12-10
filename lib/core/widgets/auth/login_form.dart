@@ -11,6 +11,8 @@ import 'package:servicehub/core/routes/app_routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:servicehub/core/utils/local_storage/storage_utility.dart';
+import 'package:servicehub/core/utils/exceptions/exceptions.dart';
+import 'package:servicehub/core/utils/exceptions/firebase_auth_exceptions.dart';
 
 class LoginForm extends StatelessWidget {
   final LoginController controller;
@@ -107,8 +109,15 @@ class LoginForm extends StatelessWidget {
                         await MyLocalStorage.instance().writeData('user', userModel.toJson());
                         await MyLocalStorage.instance().writeData('isUserLoggedIn', true);
                         Get.offAllNamed(isPaid ? AppRoutes.home : AppRoutes.subscription);
+                      } on MyFirebaseAuthException catch (e) {
+                        final msg = e.message;
+                        Get.snackbar('Login failed', msg, backgroundColor: MyColors.error.withOpacity(0.1));
+                      } on FirebaseAuthException catch (e) {
+                        final msg = MyExceptions.fromCode(e.code).message;
+                        Get.snackbar('Login failed', msg, backgroundColor: MyColors.error.withOpacity(0.1));
                       } catch (e) {
-                        Get.snackbar('Login failed', e.toString());
+                        final msg = e is MyExceptions ? e.message : const MyExceptions().message;
+                        Get.snackbar('Login failed', msg, backgroundColor: MyColors.error.withOpacity(0.1));
                       } finally {
                         controller.isLoading.value = false;
                       }
@@ -123,7 +132,7 @@ class LoginForm extends StatelessWidget {
                       ),
                     )
                   : const Text(
-                      'Login',
+                      'LogIn',
                       style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
                     ),
             ),

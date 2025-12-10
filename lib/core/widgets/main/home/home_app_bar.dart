@@ -14,6 +14,14 @@ class HomeAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final h = DateTime.now().hour;
+    final greet = h < 12
+        ? 'Morning!'
+        : h < 17
+            ? 'Afternoon!'
+            : h < 21
+                ? 'Evening!'
+                : 'Night!';
     return Row(
       children: [
         const CircleAvatar(radius: 20, backgroundColor: MyColors.grey, foregroundImage: AssetImage(MyImages.user)),
@@ -22,7 +30,7 @@ class HomeAppBar extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Morning!', style: TextStyle(fontSize: 12, color: MyColors.textSecondary)),
+              Text(greet, style: const TextStyle(fontSize: 12, color: MyColors.textSecondary)),
               Text(name, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: MyColors.textPrimary)),
             ],
           ),
@@ -31,7 +39,7 @@ class HomeAppBar extends StatelessWidget {
           width: 40,
           height: 40,
           decoration: BoxDecoration(color: MyColors.white, borderRadius: BorderRadius.circular(20)),
-          child: const Icon(Iconsax.setting_2, color: MyColors.primary),
+          child: const Icon(Iconsax.notification, color: MyColors.primary),
         ),
       ],
     );

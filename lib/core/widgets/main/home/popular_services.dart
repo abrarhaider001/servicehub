@@ -6,8 +6,15 @@ import 'package:servicehub/core/utils/constants/image_strings.dart';
 import 'package:servicehub/core/routes/app_routes.dart';
 import 'package:servicehub/view_model/providers_controller.dart';
 
-class PopularServices extends StatelessWidget {
+class PopularServices extends StatefulWidget {
   const PopularServices({super.key});
+
+  @override
+  State<PopularServices> createState() => _PopularServicesState();
+}
+
+class _PopularServicesState extends State<PopularServices> {
+  final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -15,79 +22,137 @@ class PopularServices extends StatelessWidget {
     return Expanded(
       child: Obx(() {
         if (controller.loading.value) {
-          return ListView.separated(
-            itemCount: 6,
-            separatorBuilder: (_, _) => const SizedBox(height: 12),
-            itemBuilder: (_, _) => const _ProviderSkeleton(),
+          return ScrollbarTheme(
+            data: const ScrollbarThemeData(
+              thumbColor: MaterialStatePropertyAll(MyColors.darkGrey),
+              thickness: MaterialStatePropertyAll(4),
+              radius: Radius.circular(8),
+            ),
+            child: Scrollbar(
+              controller: _scrollController,
+              thumbVisibility: true,
+              child: ListView.separated(
+                controller: _scrollController,
+                primary: false,
+                itemCount: 6,
+                separatorBuilder: (_, _) => const SizedBox(height: 12),
+                itemBuilder: (_, _) => const _ProviderSkeleton(),
+              ),
+            ),
           );
         }
         final items = controller.providers;
-        return ListView.separated(
-          itemCount: items.length,
-          separatorBuilder: (_, __) => const SizedBox(height: 12),
-          itemBuilder: (context, i) {
-            final it = items[i];
-            final name = it['displayName'] as String? ?? 'Unknown';
-            final price = (it['hourlyRate'] as num?)?.toDouble() ?? 0;
-            final rating = (it['ratingAvg'] as num?)?.toDouble() ?? 0;
-            final summary =
-                it['profileSummary'] as String? ??
-                (it['skills'] is List
-                    ? (it['skills'] as List).join(', ')
-                    : 'Service');
-            final pid = it['id'] as String?;
-            return InkWell(
-              onTap: () {
-                if (pid != null && pid.isNotEmpty) {
-                  Get.toNamed(AppRoutes.providerInfo, parameters: {'id': pid});
-                } else {
-                  Get.snackbar('Unavailable', 'Provider details not available');
-                }
-              },
-              borderRadius: BorderRadius.circular(16),
-              child: Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: MyColors.lightGrey,
+        return ScrollbarTheme(
+          data: const ScrollbarThemeData(
+            thumbColor: MaterialStatePropertyAll(MyColors.darkGrey),
+            thickness: MaterialStatePropertyAll(4),
+            radius: Radius.circular(8),
+          ),
+          child: Scrollbar(
+            controller: _scrollController,
+            thumbVisibility: true,
+            child: ListView.separated(
+              controller: _scrollController,
+              primary: false,
+              itemCount: items.length,
+              separatorBuilder: (_, __) => const SizedBox(height: 12),
+              itemBuilder: (context, i) {
+                final it = items[i];
+                final name = it['displayName'] as String? ?? 'Unknown';
+                final price = (it['hourlyRate'] as num?)?.toDouble() ?? 0;
+                final rating = (it['ratingAvg'] as num?)?.toDouble() ?? 0;
+                final summary =
+                    it['profileSummary'] as String? ??
+                    (it['skills'] is List
+                        ? (it['skills'] as List).join(', ')
+                        : 'Service');
+                final pid = it['id'] as String?;
+                return InkWell(
+                  onTap: () {
+                    if (pid != null && pid.isNotEmpty) {
+                      Get.toNamed(
+                        AppRoutes.providerInfo,
+                        parameters: {'id': pid},
+                      );
+                    } else {
+                      Get.snackbar(
+                        'Unavailable',
+                        'Provider details not available',
+                      );
+                    }
+                  },
                   borderRadius: BorderRadius.circular(16),
-                ),
-                child: Row(
-                  children: [
-                    const CircleAvatar(
-                      radius: 20,
-                      backgroundColor: MyColors.grey,
-                      foregroundImage: AssetImage(MyImages.user),
+                  child: Container(
+                    margin: const EdgeInsets.only(right: 8),
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: MyColors.lightGrey,
+                      borderRadius: BorderRadius.circular(16),
                     ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
+                    child: Row(
+                      children: [
+                        const CircleAvatar(
+                          radius: 20,
+                          backgroundColor: MyColors.grey,
+                          foregroundImage: AssetImage(MyImages.user),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Expanded(
-                                child: Text(
-                                  name,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    color: MyColors.textPrimary,
-                                  ),
-                                ),
-                              ),
                               Row(
-                                crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  Text(
-                                    '\$${price.toStringAsFixed(0)}',
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      color: MyColors.textPrimary,
+                                  Expanded(
+                                    child: Text(
+                                      name,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        color: MyColors.textPrimary,
+                                      ),
                                     ),
                                   ),
-                                  const SizedBox(height: 4),
-                                  const Text(
-                                    '/hr',
-                                    style: TextStyle(
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        '\$${price.toStringAsFixed(0)}',
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          color: MyColors.textPrimary,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 4),
+                                      const Text(
+                                        '/hr',
+                                        style: TextStyle(
+                                          color: MyColors.textSecondary,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                summary,
+                                style: const TextStyle(
+                                  color: MyColors.textSecondary,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Row(
+                                children: [
+                                  const Icon(
+                                    Iconsax.star1,
+                                    color: MyColors.warning,
+                                    size: 14,
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    rating.toStringAsFixed(1),
+                                    style: const TextStyle(
                                       color: MyColors.textSecondary,
                                       fontSize: 12,
                                     ),
@@ -96,39 +161,14 @@ class PopularServices extends StatelessWidget {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 4),
-                          Text(
-                            summary,
-                            style: const TextStyle(
-                              color: MyColors.textSecondary,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Row(
-                            children: [
-                              const Icon(
-                                Iconsax.star1,
-                                color: MyColors.warning,
-                                size: 14,
-                              ),
-                              const SizedBox(width: 4),
-                              Text(
-                                rating.toStringAsFixed(1),
-                                style: const TextStyle(
-                                  color: MyColors.textSecondary,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
-            );
-          },
+                  ),
+                );
+              },
+            ),
+          ),
         );
       }),
     );
@@ -140,6 +180,7 @@ class _ProviderSkeleton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: const EdgeInsets.only(right: 8),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: MyColors.lightGrey,

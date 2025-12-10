@@ -37,7 +37,7 @@ class _ProfilePageState extends State<ProfilePage> {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            LayoutPagesAppBar(title: 'Profile', showBack: false),
+            LayoutPagesAppBar(title: 'Profile', showBack: false,showTrailing: false),
             const SizedBox(height: 16),
             ProfileHeader(name: name, email: email),
             const SizedBox(height: 16),
