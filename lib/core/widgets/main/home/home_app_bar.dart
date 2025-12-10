@@ -39,7 +39,7 @@ class HomeAppBar extends StatelessWidget {
           width: 40,
           height: 40,
           decoration: BoxDecoration(color: MyColors.white, borderRadius: BorderRadius.circular(20)),
-          child: const Icon(Iconsax.setting_2, color: MyColors.primary),
+          child: const Icon(Iconsax.notification, color: MyColors.primary),
         ),
       ],
     );
