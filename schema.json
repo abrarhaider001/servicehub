@@ -144,6 +144,18 @@
     }
   },
 
+  "userHistory": {
+    "{userId}/history": {
+      "{historyId}": {
+        "datetime": "timestamp",
+        "amount": "number",
+        "type": "deposit | withdraw | order | refund",
+        "title": "string",
+        "description": "string"
+      }
+    }
+  },
+
   "subscriptions": {
     "{subscriptionPlanId}": {
       "name": "string",

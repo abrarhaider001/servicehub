@@ -32,7 +32,8 @@ class AppPages {
       final args = (Get.arguments as Map<String, dynamic>?) ?? const {};
       final t = (args['title'] as String?) ?? 'Your transaction is in progress';
       final s = (args['subtitle'] as String?) ?? 'Wait for approval, then you can login freely';
-      return TransactionPendingPage(title: t, subtitle: s);
+      final redirect = (args['redirectToWallet'] as bool?) ?? false;
+      return TransactionPendingPage(title: t, subtitle: s, redirectToWallet: redirect);
     }),
     GetPage(name: AppRoutes.wallet, page: () => const WalletPage()),
     GetPage(

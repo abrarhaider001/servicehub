@@ -3,14 +3,18 @@ import 'package:servicehub/core/utils/constants/animations_strings.dart';
 import 'package:servicehub/core/utils/theme/widget_themes/text_theme.dart';
 import 'package:servicehub/core/widgets/custom_background.dart';
 import 'package:lottie/lottie.dart';
+import 'package:get/get.dart';
+import 'package:servicehub/core/routes/app_routes.dart';
 
 class TransactionPendingPage extends StatefulWidget {
   final String title;
   final String subtitle;
+  final bool redirectToWallet;
   const TransactionPendingPage({
     super.key,
     required this.title,
     required this.subtitle,
+    this.redirectToWallet = false,
   });
 
   @override
@@ -18,6 +22,18 @@ class TransactionPendingPage extends StatefulWidget {
 }
 
 class _TransactionPendingPageState extends State<TransactionPendingPage> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(seconds: 5), () {
+      if (!mounted) return;
+      if (widget.redirectToWallet) {
+        Get.offNamed(AppRoutes.wallet);
+      } else {
+        Navigator.of(context).maybePop();
+      }
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

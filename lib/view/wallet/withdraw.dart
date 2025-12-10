@@ -4,10 +4,11 @@ import 'package:servicehub/core/utils/theme/widget_themes/button_theme.dart';
 import 'package:servicehub/core/utils/theme/widget_themes/text_theme.dart';
 import 'package:servicehub/core/widgets/custom_app_bar.dart';
 import 'package:servicehub/core/widgets/custom_background.dart';
-import 'package:servicehub/core/widgets/subscription/deposit_amount_field.dart';
 import 'package:servicehub/core/widgets/subscription/payment_options.dart';
 import 'package:servicehub/core/routes/app_routes.dart';
 import 'package:servicehub/core/utils/constants/colors.dart';
+import 'package:servicehub/view_model/wallet_controller.dart';
+import 'package:servicehub/core/widgets/subscription/withdraw_amount_field.dart';
 
 class WithdrawPage extends StatefulWidget {
   const WithdrawPage({super.key});
@@ -28,19 +29,27 @@ class _WithdrawPageState extends State<WithdrawPage> {
     super.dispose();
   }
 
-  void _confirmWithdraw() {
+  Future<void> _confirmWithdraw() async {
     if (!(_formKey.currentState?.validate() ?? false)) return;
     if (_amount <= 0) return;
+    try {
+      final c = Get.put(WalletController());
+      await c.withdraw(_amount, method: _method);
+    } catch (e) {
+      Get.snackbar('Withdraw failed', e.toString(), backgroundColor: MyColors.error.withOpacity(0.1));
+      return;
+    }
     Get.toNamed(AppRoutes.pending, arguments: {
       'title': 'Withdraw is processing',
       'subtitle': 'Please wait while we process your withdrawal',
+      'redirectToWallet': true,
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Withdraw', showBack: true),
+      appBar: CustomAppBar(title: 'Withdraw', showBack: true, onBack: () => Get.toNamed(AppRoutes.wallet)),
       body: Stack(
         children: [
           const CustomBackground(),
@@ -58,7 +67,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
                   const SizedBox(height: 24),
                   Form(
                     key: _formKey,
-                    child: DepositAmountField(
+                    child: WithdrawAmountField(
                       controller: _amountController,
                       onChanged: (amt) => setState(() => _amount = amt),
                     ),

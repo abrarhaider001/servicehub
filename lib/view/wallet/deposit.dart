@@ -6,6 +6,8 @@ import 'package:servicehub/core/widgets/custom_app_bar.dart';
 import 'package:servicehub/core/widgets/custom_background.dart';
 import 'package:servicehub/core/widgets/subscription/payment_card_preview.dart';
 import 'package:servicehub/core/widgets/subscription/card_form.dart';
+import 'package:servicehub/core/utils/constants/colors.dart';
+import 'package:servicehub/view_model/wallet_controller.dart';
 
 class DepositPage extends StatefulWidget {
   const DepositPage({super.key});
@@ -29,10 +31,19 @@ class _DepositPageState extends State<DepositPage> {
   }
 
   Future<void> _handleDeposit(String number, String expiry, String cvv) async {
-    await Future.delayed(const Duration(seconds: 2));
+    try {
+      final masked = number.replaceAll(' ', '');
+      final last4 = masked.length >= 4 ? masked.substring(masked.length - 4) : '';
+      final c = Get.put(WalletController());
+      await c.deposit(_amount, method: 'card', cardLast4: last4);
+    } catch (e) {
+      Get.snackbar('Deposit failed', e.toString(), backgroundColor: MyColors.error.withOpacity(0.1));
+      return;
+    }
     Get.toNamed(AppRoutes.pending, arguments: {
       'title': 'Deposit is processing',
       'subtitle': 'Please wait while we confirm your deposit',
+      'redirectToWallet': true,
     });
   }
 
@@ -43,7 +54,7 @@ class _DepositPageState extends State<DepositPage> {
         ? sanitized.substring(sanitized.length - 4)
         : '';
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Deposit', showBack: true),
+      appBar: CustomAppBar(title: 'Deposit', showBack: true, onBack: () => Get.toNamed(AppRoutes.wallet)),
       body: Stack(
         children: [
           const CustomBackground(),
