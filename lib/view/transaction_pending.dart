@@ -19,6 +19,14 @@ class TransactionPendingPage extends StatefulWidget {
 
 class _TransactionPendingPageState extends State<TransactionPendingPage> {
   @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(seconds: 5), () {
+      if (!mounted) return;
+      Navigator.of(context).maybePop();
+    });
+  }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
