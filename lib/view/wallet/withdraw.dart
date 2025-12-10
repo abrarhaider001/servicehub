@@ -4,12 +4,12 @@ import 'package:servicehub/core/utils/theme/widget_themes/button_theme.dart';
 import 'package:servicehub/core/utils/theme/widget_themes/text_theme.dart';
 import 'package:servicehub/core/widgets/custom_app_bar.dart';
 import 'package:servicehub/core/widgets/custom_background.dart';
-import 'package:servicehub/core/widgets/subscription/deposit_amount_field.dart';
 import 'package:servicehub/core/widgets/subscription/payment_options.dart';
 import 'package:servicehub/core/routes/app_routes.dart';
 import 'package:servicehub/core/utils/constants/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:servicehub/core/widgets/subscription/withdraw_amount_field.dart';
 
 class WithdrawPage extends StatefulWidget {
   const WithdrawPage({super.key});
@@ -75,13 +75,14 @@ class _WithdrawPageState extends State<WithdrawPage> {
     Get.toNamed(AppRoutes.pending, arguments: {
       'title': 'Withdraw is processing',
       'subtitle': 'Please wait while we process your withdrawal',
+      'redirectToWallet': true,
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Withdraw', showBack: true),
+      appBar: CustomAppBar(title: 'Withdraw', showBack: true, onBack: () => Get.toNamed(AppRoutes.wallet)),
       body: Stack(
         children: [
           const CustomBackground(),
@@ -99,7 +100,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
                   const SizedBox(height: 24),
                   Form(
                     key: _formKey,
-                    child: DepositAmountField(
+                    child: WithdrawAmountField(
                       controller: _amountController,
                       onChanged: (amt) => setState(() => _amount = amt),
                     ),

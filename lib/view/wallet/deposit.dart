@@ -60,6 +60,7 @@ class _DepositPageState extends State<DepositPage> {
     Get.toNamed(AppRoutes.pending, arguments: {
       'title': 'Deposit is processing',
       'subtitle': 'Please wait while we confirm your deposit',
+      'redirectToWallet': true,
     });
   }
 
@@ -70,7 +71,7 @@ class _DepositPageState extends State<DepositPage> {
         ? sanitized.substring(sanitized.length - 4)
         : '';
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Deposit', showBack: true),
+      appBar: CustomAppBar(title: 'Deposit', showBack: true, onBack: () => Get.toNamed(AppRoutes.wallet)),
       body: Stack(
         children: [
           const CustomBackground(),

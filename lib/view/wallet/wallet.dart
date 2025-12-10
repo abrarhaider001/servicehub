@@ -12,7 +12,11 @@ class WalletPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Wallet', showBack: true),
+      appBar: CustomAppBar(
+        title: 'Wallet',
+        showBack: true,
+        onBack: () => Get.offNamed(AppRoutes.home, parameters: {'index': '3'}),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
