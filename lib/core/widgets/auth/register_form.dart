@@ -8,6 +8,9 @@ import 'package:servicehub/core/utils/constants/colors.dart';
 import 'package:servicehub/core/utils/theme/widget_themes/button_theme.dart';
 import 'package:servicehub/core/utils/theme/widget_themes/text_field_theme.dart';
 import 'package:servicehub/view_model/register_controller.dart';
+import 'package:servicehub/core/utils/exceptions/exceptions.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:servicehub/core/utils/exceptions/firebase_auth_exceptions.dart';
 
 class RegisterForm extends StatelessWidget {
   final RegisterController controller;
@@ -187,8 +190,15 @@ class RegisterForm extends StatelessWidget {
                           true,
                         );
                         Get.toNamed(AppRoutes.subscription);
+                      } on MyFirebaseAuthException catch (e) {
+                        final msg = e.message;
+                        Get.snackbar('Signup failed', msg, backgroundColor: MyColors.error.withOpacity(0.1));
+                      } on FirebaseAuthException catch (e) {
+                        final msg = MyExceptions.fromCode(e.code).message;
+                        Get.snackbar('Signup failed', msg, backgroundColor: MyColors.error.withOpacity(0.1));
                       } catch (e) {
-                        Get.snackbar('Signup failed', e.toString());
+                        final msg = e is MyExceptions ? e.message : const MyExceptions().message;
+                        Get.snackbar('Signup failed', msg, backgroundColor: MyColors.error.withOpacity(0.1));
                       } finally {
                         controller.isLoading.value = false;
                       }
