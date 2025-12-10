@@ -65,5 +65,18 @@ class WalletService {
       'description': 'Withdraw via $method',
     });
   }
+
+  Stream<List<Map<String, dynamic>>> streamHistory() {
+    final uid = _uid;
+    if (uid == null) return const Stream<List<Map<String, dynamic>>>.empty();
+    return _fs
+        .collection('users')
+        .doc(uid)
+        .collection('transactionHistory')
+        .orderBy('datetime', descending: true)
+        .snapshots()
+        .map((qs) => qs.docs.map((d) => d.data()).toList());
+  }
+
 }
 

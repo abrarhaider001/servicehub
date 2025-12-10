@@ -43,14 +43,11 @@ class _WalletPageState extends State<WalletPage> {
                   onAvailable: () => Get.toNamed(AppRoutes.available),
                 )),
             const SizedBox(height: 26),
-            WalletTransactions(
-              items: const [
-                {'title': "Home cleaning", 'amountText': '-\$234.40', 'dateText': '08/10/2021', 'positive': false},
-                {'title': 'Gardening', 'amountText': '-\$17.21', 'dateText': '08/10/2021', 'positive': false},
-                {'title': 'Refrigrator maintenance', 'amountText': '-\$10.02', 'dateText': '08/08/2021', 'positive': false},
-                {'title': 'Top-Up', 'amountText': '+\$2000.99', 'dateText': '08/07/2021', 'positive': true},
-              ],
-            ),
+            Obx(() {
+              final items = _controller.history;
+              final _ = items.length;
+              return WalletTransactions(items: items.toList());
+            }),
           ],
         ),
       ),

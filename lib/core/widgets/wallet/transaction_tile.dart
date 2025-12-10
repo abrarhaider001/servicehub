@@ -5,10 +5,11 @@ import 'package:servicehub/core/utils/theme/widget_themes/text_theme.dart';
 
 class TransactionTile extends StatelessWidget {
   final String title;
+  final String? description;
   final String amountText;
   final String dateText;
   final bool positive;
-  const TransactionTile({super.key, required this.title, required this.amountText, required this.dateText, required this.positive});
+  const TransactionTile({super.key, required this.title, this.description, required this.amountText, required this.dateText, required this.positive});
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +29,12 @@ class TransactionTile extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: const TextStyle(fontWeight: FontWeight.w600, color: MyColors.textPrimary)),
-                const SizedBox(height: 4),
+                // Text(title, style: const TextStyle(fontWeight: FontWeight.w600, color: MyColors.textPrimary)),
+                // const SizedBox(height: 4),
+                if ((description ?? '').isNotEmpty) ...[
+                  Text(description!, style: const TextStyle(color: MyColors.textPrimary, fontSize: 12)),
+                  const SizedBox(height: 4),
+                ],
                 Text(dateText, style: const TextStyle(color: MyColors.textSecondary, fontSize: 12)),
               ],
             ),
